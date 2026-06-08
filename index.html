@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KETA – Kenya Twins Association</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────── */
+    :root {
+      --blue:     #06ACE9;
+      --blue-lt:  #38C1F0;
+      --cream:    #F0F8FE;
+      --warm-wht: #E8F5FD;
+      --charcoal: #0B1C2C;
+      --crimson:  #8B0A0A;
+      --sand:     #B8DDF0;
+      --green:    #0577A8;
+      --red:      #C01010;
+      --r: 1.618rem;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ──────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: .4;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 4vw;
+      background: rgba(240,248,254,.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(6,172,233,.15);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 32px rgba(6,172,233,.12); }
+    .nav-logo {
+      display: flex; align-items: center; gap: .75rem; text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--cream); font-family: 'Playfair Display', serif;
+      font-weight: 900; letter-spacing: -.02em;
+    }
+    .nav-logo-text { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--crimson); font-size: 1.1rem; line-height: 1.1; }
+    .nav-logo-sub { font-family: 'DM Sans', sans-serif; font-size: .65rem; font-weight: 500; color: var(--blue); letter-spacing: .08em; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: .9rem; font-weight: 500; color: var(--charcoal); position: relative; padding-bottom: 2px; transition: color .2s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; right: 100%; height: 1.5px; background: var(--blue); transition: right .3s; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a:hover::after { right: 0; }
+    .nav-cta {
+      background: var(--blue); color: #fff; border: none; padding: .55rem 1.4rem;
+      border-radius: 2px; font-size: .85rem; font-weight: 600; cursor: pointer;
+      text-decoration: none; letter-spacing: .02em; transition: background .2s, transform .15s;
+    }
+    .nav-cta:hover { background: var(--crimson); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; transition: .3s; }
+    .mobile-menu { display: none; }
+
+    /* ─── HERO ────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5rem 4vw 5rem 6vw;
+      position: relative; z-index: 2;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--blue); margin-bottom: 1.6rem;
+    }
+    .hero-tag::before { content: ''; display: block; width: 28px; height: 1.5px; background: var(--blue); }
+    .hero-h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      font-weight: 900; line-height: 1.0;
+      color: var(--crimson); letter-spacing: -.02em;
+      margin-bottom: 1.4rem;
+    }
+    .hero-h1 em { color: var(--blue); font-style: italic; }
+    .hero-sub {
+      font-size: 1.05rem; line-height: 1.7; color: #1a3a50;
+      max-width: 480px; margin-bottom: 2.4rem; font-weight: 300;
+    }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--blue); color: #fff; padding: .85rem 2rem;
+      border-radius: 2px; text-decoration: none; font-weight: 600; font-size: .95rem;
+      letter-spacing: .02em; transition: background .2s, transform .15s;
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary:hover { background: var(--crimson); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1.5px solid var(--blue); color: var(--blue); padding: .85rem 2rem;
+      border-radius: 2px; text-decoration: none; font-weight: 600; font-size: .95rem;
+      background: transparent; transition: all .2s;
+    }
+    .btn-outline:hover { background: var(--blue); color: #fff; }
+    .hero-stats {
+      display: flex; gap: 2.5rem; margin-top: 3.5rem;
+      padding-top: 2rem; border-top: 1px solid var(--sand);
+    }
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900;
+      color: var(--blue); line-height: 1;
+    }
+    .hero-stat-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; margin-top: .3rem; }
+    .hero-right {
+      position: relative;
+      overflow: hidden; display: flex; align-items: stretch;
+    }
+    .hero-img {
+      width: 100%; height: 100%; object-fit: cover;
+      mix-blend-mode: multiply; filter: grayscale(15%);
+      opacity: .9;
+    }
+    .hero-img-placeholder {
+      width: 100%; height: 100%; min-height: 560px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1rem; color: rgba(255,255,255,.7); text-align: center; padding: 2rem;
+    }
+    .hero-img-placeholder svg { opacity: .5; }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: none;
+    }
+    .hero-badge {
+      position: absolute; bottom: 2rem; left: -2rem;
+      background: var(--cream); padding: 1.2rem 1.6rem;
+      border-left: 4px solid var(--blue);
+      max-width: 220px; box-shadow: 8px 8px 40px rgba(0,0,0,.15);
+    }
+    .hero-badge-label { font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; color: var(--blue); margin-bottom: .3rem; }
+    .hero-badge-text { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--crimson); line-height: 1.3; }
+
+    /* ─── EVENT TICKER ────────────────────────────────── */
+    .ticker {
+      background: var(--charcoal); color: var(--cream);
+      padding: .75rem 0; overflow: hidden; white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 22s linear infinite;
+    }
+    .ticker-inner span { margin: 0 3rem; font-size: .82rem; font-weight: 500; letter-spacing: .05em; }
+    .ticker-inner .dot { color: var(--blue); font-size: 1rem; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── WELCOME ─────────────────────────────────────── */
+    .welcome { padding: 7rem 6vw; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .welcome-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: var(--blue); margin-bottom: 1rem; }
+    .welcome h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; color: var(--crimson); line-height: 1.2; margin-bottom: 1.5rem; }
+    .welcome p { font-size: 1rem; line-height: 1.8; color: #1a3a50; margin-bottom: 1rem; font-weight: 300; }
+    .welcome-affiliates { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.6rem; }
+    .affiliate-chip {
+      border: 1px solid var(--sand); border-radius: 2px;
+      padding: .4rem .9rem; font-size: .75rem; font-weight: 500; color: var(--crimson);
+      background: transparent;
+    }
+  /* 1. Make the whole visual container take full width */
+.welcome-visual {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+
+/* 2. Force image wrapper to stretch fully */
+.welcome-img-wrap {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  border-radius: 0; /* optional: removes visible edge gap illusion */
+}
+
+/* 3. Ensure image fully covers container */
+.welcome-img-wrap img {
+  width: 100%;
+  height: 100%;
+  display: block;   /* removes inline image gap */
+  object-fit: cover;
+}
+
+/* 4. Remove any accidental spacing from parent layout */
+.welcome-visual,
+.welcome-visual * {
+  box-sizing: border-box;
+}
+
+/* 5. If this section is inside a grid/flex row, force no gap */
+.welcome-section-parent {   /* rename if you have a parent container */
+  gap: 0 !important;
+  padding-right: 0 !important;
+}
+    .welcome-accent {
+      position: absolute; bottom: -1.5rem; right: -1.5rem;
+      width: 180px; height: 180px; background: var(--blue);
+      border-radius: 50%; opacity: .12; z-index: -1;
+    }
+    .quote-block {
+      position: absolute; bottom: 1.5rem; left: -2rem;
+      background: var(--charcoal); color: var(--cream);
+      padding: 1.2rem 1.6rem; max-width: 210px;
+    }
+    .quote-block p { font-family: 'Playfair Display', serif; font-style: italic; font-size: .95rem; line-height: 1.5; }
+    .quote-block span { font-size: .7rem; color: var(--blue); display: block; margin-top: .5rem; letter-spacing: .06em; text-transform: uppercase; }
+
+    /* ─── EVENT BANNER ────────────────────────────────── */
+    .event-banner {
+      background: var(--charcoal); color: var(--cream);
+      padding: 5rem 6vw;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .event-banner::before {
+      content: '2026';
+      position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+      font-family: 'Playfair Display', serif; font-size: 18rem; font-weight: 900;
+      color: rgba(255,255,255,.03); line-height: 1; pointer-events: none;
+    }
+    .event-badge-row { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .event-chip {
+      background: var(--blue); color: #fff;
+      padding: .35rem .9rem; border-radius: 2px;
+      font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .event-chip.outline { background: transparent; border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.7); }
+    .event-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 900; line-height: 1.2; margin-bottom: 1rem; }
+    .event-banner h2 em { color: var(--blue-lt); font-style: italic; }
+    .event-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .event-meta-item { border-left: 2px solid var(--blue); padding-left: .9rem; }
+    .event-meta-label { font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.45); margin-bottom: .2rem; }
+    .event-meta-val { font-size: 1rem; font-weight: 600; }
+    .event-activities { margin-top: 2rem; }
+    .event-activities h4 { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,.45); margin-bottom: .8rem; }
+    .activity-pills { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .activity-pill { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); padding: .4rem .9rem; border-radius: 999px; font-size: .8rem; }
+    .event-cta-side { display: flex; flex-direction: column; gap: 1.5rem; }
+    .price-block { background: var(--blue); padding: 2rem; }
+    .price-block-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; opacity: .8; }
+    .price-block-amount { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; line-height: 1; }
+    .price-block-sub { font-size: .8rem; opacity: .8; margin-top: .3rem; }
+    .btn-white { background: #fff; color: var(--crimson); padding: .9rem 2rem; border-radius: 2px; text-decoration: none; font-weight: 700; font-size: .95rem; display: block; text-align: center; transition: background .2s; }
+    .btn-white:hover { background: var(--cream); }
+
+    /* ─── WHAT WE DO ──────────────────────────────────── */
+    .what-we-do { padding: 7rem 6vw; }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; flex-wrap: wrap; gap: 1rem; }
+    .section-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: var(--blue); margin-bottom: .6rem; }
+    .section-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 900; color: var(--crimson); line-height: 1.2; }
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--sand); }
+    .pillar { background: var(--cream); padding: 2.5rem 2rem; position: relative; overflow: hidden; transition: background .3s; }
+    .pillar:hover { background: var(--warm-wht); }
+    .pillar-number { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: rgba(6,172,233,.1); position: absolute; top: 1rem; right: 1.5rem; line-height: 1; }
+    .pillar-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .pillar h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--crimson); margin-bottom: .8rem; }
+    .pillar p { font-size: .9rem; line-height: 1.7; color: #1f4a6a; font-weight: 300; }
+    .pillar-bar { position: absolute; bottom: 0; left: 0; right: 100%; height: 3px; background: var(--blue); transition: right .4s ease; }
+    .pillar:hover .pillar-bar { right: 0; }
+
+    /* ─── THEME STRIP ─────────────────────────────────── */
+    .theme-strip {
+      background: var(--blue); padding: 4rem 6vw;
+      display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;
+    }
+    .theme-strip-icon { font-size: 3.5rem; flex-shrink: 0; }
+    .theme-strip-text h3 { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: #fff; font-weight: 900; margin-bottom: .4rem; }
+    .theme-strip-text p { color: rgba(255,255,255,.8); font-size: .95rem; line-height: 1.6; max-width: 600px; }
+
+    /* ─── GALLERY ─────────────────────────────────────── */
+    .gallery { padding: 5rem 0; overflow: hidden; }
+    .gallery h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 900; color: var(--crimson); padding: 0 6vw 2.5rem; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 240px 240px;
+      gap: 4px;
+    }
+    .gallery-item { overflow: hidden; position: relative; background: var(--sand); }
+    .gallery-item:first-child { grid-column: 1 / 3; grid-row: 1 / 3; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .gallery-item:hover img { transform: scale(1.05); }
+    .gallery-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .6rem; color: #4a8aaa; font-size: .8rem; text-align: center; padding: 1rem;
+    }
+    .gallery-item-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(28,20,16,.7) 0%, transparent 100%);
+      color: rgba(255,255,255,.9); font-size: .75rem; font-weight: 500;
+      padding: 2rem .8rem .6rem; opacity: 0; transition: opacity .3s;
+    }
+    .gallery-item:hover .gallery-item-label { opacity: 1; }
+
+    /* ─── ABOUT PAGE INLINE ───────────────────────────── */
+    .about-section { padding: 7rem 6vw; background: var(--warm-wht); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3rem; }
+    .about-body p { font-size: 1rem; line-height: 1.8; color: #1a3a50; margin-bottom: 1.2rem; font-weight: 300; }
+    .affiliation-box { background: var(--cream); border-left: 4px solid var(--blue); padding: 1.5rem; margin: 2rem 0; }
+    .affiliation-box h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--crimson); margin-bottom: .5rem; }
+    .affiliation-box p { font-size: .9rem; color: #1f4a6a; margin: 0; }
+    .about-sidebar { position: sticky; top: 100px; }
+    .about-img-col { display: flex; flex-direction: column; gap: 1.5rem; }
+    .about-img-wrap { aspect-ratio: 3/2; background: var(--sand); border-radius: 2px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .about-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .founded-chip { display: inline-block; background: var(--charcoal); color: var(--cream); padding: .5rem 1.2rem; font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1rem; }
+
+    /* ─── CONTACT / FOOTER ────────────────────────────── */
+    footer { background: var(--charcoal); color: var(--cream); }
+    .footer-top {
+      padding: 5rem 6vw;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    }
+    .footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #fff; margin-bottom: .5rem; }
+    .footer-brand .tagline { color: var(--blue-lt); font-size: .85rem; margin-bottom: 1.2rem; }
+    .footer-brand p { font-size: .85rem; line-height: 1.7; color: rgba(255,255,255,.55); font-weight: 300; }
+    .footer-contact-item { display: flex; align-items: flex-start; gap: .7rem; margin-bottom: .9rem; }
+    .footer-contact-item svg { flex-shrink: 0; margin-top: 2px; opacity: .7; }
+    .footer-contact-item span { font-size: .85rem; color: rgba(255,255,255,.65); line-height: 1.5; }
+    .footer-contact-item a { color: rgba(255,255,255,.65); text-decoration: none; transition: color .2s; }
+    .footer-contact-item a:hover { color: var(--blue-lt); }
+    .footer-col h4 { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.4); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: .65rem; }
+    .footer-col a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .88rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--blue-lt); }
+    .social-links { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .social-link {
+      width: 36px; height: 36px; border-radius: 2px;
+      border: 1px solid rgba(255,255,255,.18);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.6); font-size: .7rem; font-weight: 700;
+      text-decoration: none; transition: all .2s; letter-spacing: .02em;
+    }
+    .social-link:hover { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 1.5rem 6vw;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: .78rem; color: rgba(255,255,255,.3); }
+    .footer-bottom a { color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
+    .footer-bottom a:hover { color: var(--blue-lt); }
+
+    /* ─── SCROLL ANIMATION ────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 3rem 5vw; }
+      .hero-right { min-height: 360px; }
+      .hero-badge { display: none; }
+      .welcome { grid-template-columns: 1fr; gap: 2.5rem; padding: 5rem 5vw; }
+      .welcome-visual { order: -1; }
+      .quote-block { display: none; }
+      .event-banner { grid-template-columns: 1fr; padding: 4rem 5vw; }
+      .event-banner::before { display: none; }
+      .pillars { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gallery-item:first-child { grid-column: 1 / 3; aspect-ratio: 16/9; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-sidebar { position: static; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu.open {
+        display: flex; flex-direction: column; gap: 1rem;
+        position: fixed; inset: 0; top: 70px;
+        background: var(--cream); padding: 2rem 5vw;
+        z-index: 99; border-top: 1px solid var(--sand);
+      }
+      .mobile-menu.open a { font-size: 1.2rem; font-weight: 600; color: var(--crimson); text-decoration: none; padding: .8rem 0; border-bottom: 1px solid var(--sand); }
+      .hero-stats { gap: 1.5rem; }
+    }
+    @media (max-width: 600px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .event-meta { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item:first-child { grid-column: 1; }
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-outline { text-align: center; justify-content: center; }
+    }
+    .donate-box {
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .donate-box h2 {
+      margin-bottom: 10px;
+      color: #222;
+    }
+
+    .donate-box p {
+      margin: 6px 0;
+      color: #444;
+      font-size: 16px;
+    }
+
+    .till {
+      font-size: 20px;
+      font-weight: bold;
+      color: #0a7cff;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#home" class="nav-logo">
+      <div class="nav-logo-icon">K</div>
+      <div>
+        <div class="nav-logo-text">KETA</div>
+        <div class="nav-logo-sub">Kenya Twins Association</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#event">Event 2026</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#event" class="nav-cta">Register Now</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home" onclick="closeMobile()">Home</a>
+    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="#event" onclick="closeMobile()">Event 2026</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+    <a href="#event" class="btn-primary" onclick="closeMobile()">Register Now →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <div class="hero-tag">Kenya Twins Association — KETA</div>
+      <h1 class="hero-h1">Twinning<br>is <em>Winning</em></h1>
+      <p class="hero-sub">Uniting, empowering, and celebrating twins & multiples across Kenya. Founded 2023, connected globally.</p>
+      <div class="hero-btns">
+        <a href="#event" class="btn-primary">Join KETA World Twins Day 2026 →</a>
+        <a href="#contact" class="btn-outline">Donate</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">2023</div>
+          <div class="hero-stat-label">Founded</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">2nd</div>
+          <div class="hero-stat-label">August 2026</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">∞</div>
+          <div class="hero-stat-label">Doubles the love</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <!-- REPLACE src with your main hero image -->
+      <img src="./images/1.jpeg" alt="KETA twins community" class="hero-img"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="hero-img-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="20" r="10" stroke="white" stroke-width="2"/>
+          <circle cx="42" cy="20" r="10" stroke="white" stroke-width="2"/>
+          <path d="M4 52c0-10 8-16 18-16h20c10 0 18 6 18 16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span style="font-size:.85rem;color:rgba(255,255,255,.6)">Add your main<br>hero photo here<br><code style="font-size:.7rem;opacity:.6">hero-main.jpg</code></span>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-badge">
+        <div class="hero-badge-label">Global Affiliate</div>
+        <div class="hero-badge-text">Africa Twins Association & GTMBO</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+      <span>World Twins Day 2026</span><span class="dot">◆</span>
+      <span>2nd August · Ngong Hills</span><span class="dot">◆</span>
+      <span>KSh 350 per person</span><span class="dot">◆</span>
+      <span>Hiking · Team Building · Photography</span><span class="dot">◆</span>
+      <span>Double the Love, Share the Care</span><span class="dot">◆</span>
+      <span>World Twins Day 2026</span><span class="dot">◆</span>
+      <span>2nd August · Ngong Hills</span><span class="dot">◆</span>
+      <span>KSh 350 per person</span><span class="dot">◆</span>
+      <span>Hiking · Team Building · Photography</span><span class="dot">◆</span>
+      <span>Double the Love, Share the Care</span><span class="dot">◆</span>
+    </div>
+  </div>
+
+  <!-- WELCOME -->
+  <section class="welcome">
+    <div class="reveal">
+      <div class="welcome-label">Welcome</div>
+      <h2>Kenya's Home for Twins & Multiples</h2>
+      <p>Kenya Twins Association is the country's dedicated home for twins, triplets, and all multiple births. Since 2023, we've been building a community where twins connect, parents find support, and every multiple birth story is celebrated.</p>
+      <p>As an affiliate of Africa Twins Association and Global Twins & Multiple Birth Organizations, we're part of a worldwide movement doubling love and sharing care.</p>
+      <div class="welcome-affiliates">
+        <span class="affiliate-chip">Africa Twins Association</span>
+        <span class="affiliate-chip">Global Twins & Multiple Birth Organizations</span>
+        <span class="affiliate-chip">Founded Kenya 2023</span>
+      </div>
+    </div>
+    <div class="welcome-visual reveal">
+      <div class="welcome-img-wrap">
+        <!-- Replace src with one of your photos -->
+        <img src="./images/2.jpeg" alt="KETA community"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="welcome-img-placeholder">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="14" r="7" stroke="#06ACE9" stroke-width="1.5"/>
+            <circle cx="32" cy="14" r="7" stroke="#06ACE9" stroke-width="1.5"/>
+            <path d="M2 40c0-8 6-12 14-12h16c8 0 14 4 14 12" stroke="#06ACE9" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span style="font-size:.8rem">Add photo<br><code style="font-size:.7rem;opacity:.7">welcome-photo.jpg</code></span>
+        </div>
+      </div>
+      <div class="welcome-accent"></div>
+      <div class="quote-block">
+        <p>"Every twin has a story worth celebrating."</p>
+        <span>KETA Mission</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENT BANNER -->
+  <section class="event-banner" id="event">
+    <div class="reveal">
+      <div class="event-badge-row">
+        <span class="event-chip">Upcoming Event</span>
+        <span class="event-chip outline">2026</span>
+      </div>
+      <h2>World Twins Day<br><em>Ngong Hills</em></h2>
+      <div class="event-meta">
+        <div class="event-meta-item">
+          <div class="event-meta-label">Date</div>
+          <div class="event-meta-val">2nd August 2026</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="event-meta-label">Location</div>
+          <div class="event-meta-val">Ngong Hills, Kenya</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="event-meta-label">Cost</div>
+          <div class="event-meta-val">KSh 350 / person</div>
+        </div>
+        <div class="event-meta-item">
+          <div class="event-meta-label">Open to</div>
+          <div class="event-meta-val">Everyone</div>
+        </div>
+      </div>
+      <div class="event-activities">
+        <h4>Activities Include</h4>
+        <div class="activity-pills">
+          <span class="activity-pill">Hiking</span>
+          <span class="activity-pill">Team Building</span>
+          <span class="activity-pill">Photography</span>
+          <span class="activity-pill">Celebration</span>
+        </div>
+      </div>
+    </div>
+    <div class="event-cta-side reveal">
+      <div class="price-block">
+        <div class="price-block-label">Registration Fee</div>
+        <div class="price-block-amount">KSh 350</div>
+        <div class="price-block-sub">per person · all activities included</div>
+      </div>
+      <a href="mailto:kenyatwins7@gmail.com?subject=World Twins Day 2026 Registration" class="btn-white">Register Now →</a>
+      <p style="color:rgba(255,255,255,.4);font-size:.78rem;text-align:center">Contact us via WhatsApp: 0713 456 329</p>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO -->
+  <section class="what-we-do" id="mission">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Our Mission</div>
+        <h2>What We Do</h2>
+      </div>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <div class="pillar-number">01</div>
+        
+        <h3>Community Building</h3>
+        <p>We bring twins and parents together through events, support groups, and the annual World Twins Day celebration — creating bonds that last a lifetime.</p>
+        <div class="pillar-bar"></div>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-number">02</div>
+        
+        <h3>Empowerment</h3>
+        <p>Through team-building, mentorship, and advocacy, we help twins and multiples thrive in school, work, and life — turning unique challenges into strengths.</p>
+        <div class="pillar-bar"></div>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-number">03</div>
+        
+        <h3>Awareness</h3>
+        <p>We educate the public on the needs of multiple births and fight stigma around twinning and poverty, ensuring every family feels seen and supported.</p>
+        <div class="pillar-bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THEME STRIP -->
+  <div class="theme-strip">
+    
+    <div class="theme-strip-text">
+      <h3>Twins Twinning Against Poverty</h3>
+      <p>Our guiding theme: <strong>Double the Love, Share the Care.</strong> We believe that together, twins and multiples can inspire a more supportive and equitable Kenya.</p>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <h2 class="reveal">Our Community</h2>
+    <div class="gallery-grid">
+      <!-- Slot 1: Main large photo -->
+      <div class="gallery-item">
+        <img src="./images/3.jpeg" alt="KETA twins event"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="gallery-placeholder">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="13" cy="12" r="6" stroke="#06ACE9" stroke-width="1.5"/><circle cx="27" cy="12" r="6" stroke="#06ACE9" stroke-width="1.5"/><path d="M1 34c0-7 5-10 12-10h14c7 0 12 3 12 10" stroke="#06ACE9" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>gallery-1.jpg<br><small>(main large photo)</small></span>
+        </div>
+        <div class="gallery-item-label">KETA Community</div>
+      </div>
+      <!-- Slot 2 -->
+      <div class="gallery-item">
+        <img src="./images/4.jpeg" alt="KETA event"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="2" stroke="#06ACE9" stroke-width="1.5"/><circle cx="20" cy="20" r="6" stroke="#06ACE9" stroke-width="1.5"/></svg>
+          <span>gallery-2.jpg</span>
+        </div>
+        <div class="gallery-item-label">Events</div>
+      </div>
+      <!-- Slot 3 -->
+      <div class="gallery-item">
+        <img src="./images/5.jpeg" alt="KETA members"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="2" stroke="#06ACE9" stroke-width="1.5"/><circle cx="20" cy="20" r="6" stroke="#06ACE9" stroke-width="1.5"/></svg>
+          <span>gallery-3.jpg</span>
+        </div>
+        <div class="gallery-item-label">Members</div>
+      </div>
+      <!-- Slot 4 -->
+      <div class="gallery-item">
+        <img src="./images/6.jpeg" alt="KETA celebration"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="2" stroke="#06ACE9" stroke-width="1.5"/><circle cx="20" cy="20" r="6" stroke="#06ACE9" stroke-width="1.5"/></svg>
+          <span>gallery-4.jpg</span>
+        </div>
+        <div class="gallery-item-label">Celebrations</div>
+      </div>
+      <!-- Slot 5 -->
+      <div class="gallery-item">
+        <img src="./images/7.jpeg" alt="KETA outdoors"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="gallery-placeholder">
+          <svg width="36" height="36" viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="2" stroke="#06ACE9" stroke-width="1.5"/><circle cx="20" cy="20" r="6" stroke="#06ACE9" stroke-width="1.5"/></svg>
+          <span>gallery-5.jpg</span>
+        </div>
+        <div class="gallery-item-label">Outdoors</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about-section" id="about">
+    <div class="section-label">Our Story</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:900;color:var(--crimson);line-height:1.2;max-width:600px" class="reveal">
+      About Kenya Twins Association
+    </h2>
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <span class="founded-chip">Founded 2023</span>
+        <p>Kenya Twins Association was founded in 2023 with a clear mission: to unite and empower twins and multiple births across Kenya.</p>
+        <p>We recognized that twins and multiples share a unique bond and unique challenges. KETA was created to provide a supportive community, advocate for their needs, and celebrate the joy of multiple births.</p>
+        <div class="affiliation-box">
+          <h4>Our Global Affiliation</h4>
+          <p>KETA is proud to be an affiliate of <strong>Africa Twins Association</strong> and <strong>Global Twins & Multiple Birth Organizations</strong>. This connection allows us to share best practices, access resources, and ensure Kenyan twins are represented on the global stage.</p>
+        </div>
+        <p>Through community building, empowerment, and advocacy, we help twins and multiples thrive in school, work, and life — fighting stigma and celebrating what makes multiple births extraordinary.</p>
+      </div>
+      <div class="about-sidebar reveal">
+        <div class="about-img-col">
+          <div class="about-img-wrap">
+            <img src="./images/1.jpeg" alt="KETA founders"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;color:#9a7a5a;padding:2rem;width:100%;height:100%;text-align:center;font-size:.8rem">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="13" cy="12" r="6" stroke="#06ACE9" stroke-width="1.5"/><circle cx="27" cy="12" r="6" stroke="#06ACE9" stroke-width="1.5"/><path d="M1 34c0-7 5-10 12-10h14c7 0 12 3 12 10" stroke="#06ACE9" stroke-width="1.5" stroke-linecap="round"/></svg>
+              about-photo.jpg
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+    <div class="donate-box">
+    <h2>Support Us:</h2>
+    <p>Donate to our Till Number</p>
+    <div class="till">3449780</div>
+    <p>ASHLINE KASAINE</p>
+  </div>
+
+  <!-- FOOTER / CONTACT -->
+  <footer id="contact">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>Kenya Twins Association</h3>
+        <div class="tagline">KETA — Twinning is Winning</div>
+        <p>Kenya's home for twins, triplets, and all multiple births. Building community, empowering families, and celebrating every multiple birth story since 2023.</p>
+        <div class="social-links">
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="social-link" title="Facebook">fb</a>
+          <a href="https://tiktok.com" target="_blank" rel="noopener" class="social-link" title="TikTok">tt</a>
+          <a href="https://youtube.com" target="_blank" rel="noopener" class="social-link" title="YouTube">yt</a>
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="social-link" title="Instagram">ig</a>
+          <a href="https://x.com" target="_blank" rel="noopener" class="social-link" title="X / Twitter">𝕏</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C5.24 1 3 3.24 3 6c0 4 5 9 5 9s5-5 5-9c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 8 4a1.5 1.5 0 0 1 0 3.5z" fill="currentColor" opacity=".7"/></svg>
+          <span>P.O. Box 11,<br>Kajiado, Kenya</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.6 10.4l-2.4-.8a.5.5 0 0 0-.5.1l-1.1 1.1a7.8 7.8 0 0 1-3.4-3.4l1.1-1.1a.5.5 0 0 0 .1-.5l-.8-2.4A.5.5 0 0 0 6 3H4a1 1 0 0 0-1 1.1C3.5 10 6 12.5 12 13a1 1 0 0 0 1.1-1V10.9a.5.5 0 0 0-.4-.5z" fill="currentColor" opacity=".7"/></svg>
+          <span><a href="tel:+254713456329">0713 456 329</a><br><small style="opacity:.5">Phone / WhatsApp</small></span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1" stroke="currentColor" stroke-width="1.2" opacity=".7"/><path d="M1 4l7 5 7-5" stroke="currentColor" stroke-width="1.2" opacity=".7"/></svg>
+          <span><a href="mailto:kenyatwins7@gmail.com">kenyatwins7@gmail.com</a></span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About KETA</a></li>
+          <li><a href="#event">World Twins Day 2026</a></li>
+          <li><a href="#mission">What We Do</a></li>
+          <li><a href="mailto:kenyatwins7@gmail.com">Donate</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a></li>
+          <li><a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://x.com" target="_blank" rel="noopener">X (Twitter)</a></li>
+        </ul>
+        <p style="font-size:.75rem;color:rgba(255,255,255,.3);margin-top:1rem">@Kenya Twins Association</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Kenya Twins Association – KETA. All rights reserved.</p>
+      <p>Site admin: <a href="mailto:abdirashidtulito@gmail.com">Abdirashid Tulito</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // NAV scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    function closeMobile() { mobileMenu.classList.remove('open'); }
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
