@@ -7,6 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- EmailJS: used by the popup registration forms to submit via email. -->
+  <!-- Fill in EMAILJS_CONFIG in the script at the bottom of this page once your EmailJS account is set up. -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
     /* ─── TOKENS ─────────────────────────────────────── */
     :root {
@@ -576,6 +579,126 @@
     object-fit:contain; /* Use 'cover' if you want it to fill the circle */
     display:block;
 }
+
+    /* ─── MODAL / POPUP FORMS ─────────────────────────── */
+    body.modal-lock { overflow: hidden; }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(11,28,44,.78);
+      backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+      opacity: 0; transition: opacity .25s ease;
+    }
+    .modal-overlay.open { display: flex; opacity: 1; }
+    .modal-box {
+      background: var(--cream);
+      width: 100%; max-width: 580px; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      border-radius: 6px;
+      box-shadow: 8px 8px 8px rgba(0,0,0,.1), 0 30px 80px rgba(0,0,0,.35);
+      animation: modalIn .35s cubic-bezier(.2,.8,.3,1);
+    }
+    @keyframes modalIn { from { transform: translateY(24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+    .modal-close {
+      position: absolute; top: .9rem; right: .9rem; z-index: 3;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,.18); border: none; color: #fff;
+      font-size: 1.5rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, transform .15s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,.32); transform: rotate(90deg); }
+    .modal-header {
+      background: var(--blue); color: #fff;
+      padding: 2.4rem 2rem 1.7rem; position: relative; overflow: hidden;
+    }
+    .modal-header::before {
+      content: ''; position: absolute; right: -2rem; top: -2rem;
+      width: 150px; height: 150px; background: rgba(255,255,255,.08); border-radius: 50%;
+    }
+    .modal-header::after {
+      content: ''; position: absolute; left: -3rem; bottom: -3rem;
+      width: 120px; height: 120px; background: rgba(255,255,255,.06); border-radius: 50%;
+    }
+    .modal-ribbon {
+      display: inline-block; background: var(--crimson); color: #fff;
+      font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: .35rem .9rem .35rem .8rem; border-radius: 2px; margin-bottom: .9rem;
+      clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%);
+      position: relative; z-index: 1;
+    }
+    .modal-h2 {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.65rem);
+      font-weight: 900; line-height: 1.25; margin-bottom: .6rem; position: relative; z-index: 1;
+    }
+    .modal-sub { font-size: .9rem; line-height: 1.65; opacity: .94; font-weight: 300; max-width: 460px; position: relative; z-index: 1; }
+    .modal-form { padding: 1.8rem 2rem 2.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.15rem; }
+    .form-label {
+      display: block; font-size: .72rem; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--crimson); margin-bottom: .4rem;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; padding: .7rem .9rem; border: 1.5px solid var(--sand); border-radius: 2px;
+      font-family: 'DM Sans', sans-serif; font-size: .92rem; background: #fff; color: var(--charcoal);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-textarea { resize: vertical; min-height: 90px; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(6,172,233,.15);
+    }
+    .fee-box {
+      background: var(--warm-wht); border-left: 3px solid var(--blue);
+      padding: 1rem 1.2rem; margin-bottom: 1.2rem; border-radius: 0 3px 3px 0;
+    }
+    .fee-box .fee-amount { font-family: 'Playfair Display', serif; font-weight: 900; color: var(--crimson); font-size: 1.35rem; }
+    .fee-box .fee-line { font-size: .85rem; color: #1a3a50; margin-top: .15rem; font-weight: 500; }
+    .fee-box .fee-note { font-size: .78rem; color: #1a3a50; margin-top: .4rem; font-style: italic; opacity: .85; }
+    .checkbox-group { display: flex; flex-direction: column; gap: .65rem; }
+    .checkbox-item {
+      display: flex; align-items: center; gap: .65rem; font-size: .9rem; cursor: pointer;
+      padding: .6rem .8rem; border: 1.5px solid var(--sand); border-radius: 2px; transition: border-color .2s, background .2s;
+    }
+    .checkbox-item:hover { border-color: var(--blue); background: var(--warm-wht); }
+    .checkbox-item input { width: 17px; height: 17px; accent-color: var(--blue); cursor: pointer; flex-shrink: 0; }
+    .form-submit {
+      width: 100%; background: var(--crimson); color: #fff; border: none;
+      padding: 1rem; border-radius: 2px; font-weight: 700; font-size: .98rem;
+      letter-spacing: .02em; cursor: pointer; transition: background .2s, transform .15s;
+      margin-top: .3rem; font-family: 'DM Sans', sans-serif;
+    }
+    .form-submit:hover { background: #6b0808; transform: translateY(-2px); }
+    .form-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .form-status-msg {
+      display: none; text-align: center; padding: .8rem 1rem; border-radius: 2px;
+      font-size: .86rem; margin-top: 1rem; font-weight: 500;
+    }
+    .form-status-msg.success { background: rgba(6,172,233,.12); color: var(--green); display: block; }
+    .form-status-msg.error { background: rgba(192,16,16,.1); color: var(--red); display: block; }
+    .form-footer-note {
+      text-align: center; font-size: .82rem; color: #1a3a50;
+      margin-top: 1.3rem; padding-top: 1.2rem; border-top: 1px solid var(--sand);
+      display: flex; flex-direction: column; align-items: center; gap: .6rem;
+    }
+    .whatsapp-row { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
+    .whatsapp-btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      background: #25D366; color: #fff; padding: .55rem 1.1rem;
+      border-radius: 999px; text-decoration: none; font-weight: 600; font-size: .8rem;
+      transition: transform .15s, box-shadow .2s;
+    }
+    .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(37,211,102,.35); }
+    /* Buttons converted from <a> to <button> for popup forms */
+    .btn-white, .btn-help, .btn-membership {
+      border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
+    }
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+      .modal-header { padding: 2rem 1.4rem 1.4rem; }
+      .modal-form { padding: 1.5rem 1.4rem 1.8rem; }
+    }
   </style>
 </head>
 <body>
@@ -623,7 +746,7 @@
       <p class="hero-sub">Uniting, empowering, and celebrating twins & multiples across Kenya. Founded 2023, connected globally.</p>
       <div class="hero-btns">
         <a href="#help" class="btn-primary">Request Help for Vulnerable Mothers →</a>
-        <a href="#membership" class="btn-outline">Register as Member Today</a>
+      <button type="button" class="btn-outline" onclick="openModal('membership')">Register as Member Today</button>
       </div>
       <div class="hero-btns" style="margin-top:.9rem">
         <a href="#event" class="btn-primary" style="background:var(--crimson)">Join KETA World Twins Day 2026 →</a>
@@ -687,7 +810,7 @@
       <h2>Are You a Vulnerable Mother of Twins?</h2>
       <p>If you're a mother of twins, triplets, or multiples and feeling overwhelmed — financially, emotionally, or physically — KETA is here for you. Reach out and let us walk this journey with you.</p>
       <div class="help-cta-row">
-        <a href="mailto:kenyatwins7@gmail.com?subject=Request for Help - Vulnerable Mother of Twins" class="btn-help">Request Help Now →</a>
+        <button type="button" class="btn-help" onclick="openModal('help')">Request Help Now →</button>
       </div>
       <p class="help-note">Or reach us directly via WhatsApp: 0713 456 329</p>
     </div>
@@ -730,7 +853,7 @@
     </div>
     <div class="membership-cta-col">
       <span class="membership-price">KSh 1,000 <span style="font-size:.85rem;font-weight:600;opacity:.85">/ pair</span></span>
-      <a href="mailto:kenyatwins7@gmail.com?subject=KETA Membership Registration" class="btn-membership">Register as Member Today</a>
+      <button type="button" class="btn-membership" onclick="openModal('membership')">Register as Member Today</button>
     </div>
   </section>
 
@@ -811,7 +934,7 @@
         <div class="price-block-amount">KSh 350</div>
         <div class="price-block-sub">per person · all activities included</div>
       </div>
-      <a href="mailto:kenyatwins7@gmail.com?subject=World Twins Day 2026 Registration" class="btn-white">Register Now →</a>
+      <button type="button" class="btn-white" onclick="openModal('twinday')">Register Now →</button>
       <p style="color:rgba(255,255,255,.4);font-size:.78rem;text-align:center">Contact us via WhatsApp: 0713 456 329</p>
     </div>
   </section>
@@ -1057,6 +1180,14 @@
     </div>
   </footer>
 
+  <!-- MODAL / POPUP FORMS -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal-box" id="modalBox" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close form">&times;</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
   <script>
     // NAV scroll
     const navbar = document.getElementById('navbar');
@@ -1081,6 +1212,281 @@
       });
     }, { threshold: 0.1 });
     reveals.forEach(el => obs.observe(el));
+
+    /* ══════════════════════════════════════════════════════
+       POPUP REGISTRATION / REQUEST FORMS
+       ══════════════════════════════════════════════════════ */
+
+    // TODO: Once your EmailJS account is set up, replace these three
+    // placeholder values with your real Public Key, Service ID, and
+    // Template ID from https://dashboard.emailjs.com/
+    const EMAILJS_CONFIG = {
+      publicKey:  'YOUR_PUBLIC_KEY',
+      serviceId:  'YOUR_SERVICE_ID',
+      templateId: 'YOUR_TEMPLATE_ID'
+    };
+    if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
+      emailjs.init(EMAILJS_CONFIG.publicKey);
+    }
+
+    // Where each form should land if EmailJS isn't configured yet (mailto fallback)
+    const FORM_META = {
+      twinday:    { subject: 'World Twins Day 2026 Registration', to: 'kenyatwins7@gmail.com' },
+      help:       { subject: 'Request for Help - Vulnerable Mother of Twins', to: 'kenyatwins7@gmail.com' },
+      membership: { subject: 'KETA Membership Registration', to: 'kenyatwins7@gmail.com' }
+    };
+
+    function twindayTemplate() {
+      return `
+        <div class="modal-header">
+          <span class="modal-ribbon">World Twins Day 2026</span>
+          <h2 class="modal-h2">World Twins Day Registration 2026</h2>
+          <p class="modal-sub">Celebrate with your twin! Register both twins today to be part of KETA's official commemoration.</p>
+        </div>
+        <form class="modal-form" id="form-twinday" onsubmit="return handleFormSubmit(event,'twinday')">
+          <input type="hidden" name="form_type" value="World Twins Day 2026 Registration">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Full Name</label>
+              <input class="form-input" type="text" name="your_name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your Twin's Full Name</label>
+              <input class="form-input" type="text" name="twin_name" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Age</label>
+              <input class="form-input" type="number" name="your_age" min="0" max="120" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">County of Residence</label>
+            <input class="form-input" type="text" name="county" placeholder="County you currently live in" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Number (WhatsApp)</label>
+            <input class="form-input" type="tel" name="contact" placeholder="e.g. 07XX XXX XXX" required>
+          </div>
+          <div class="fee-box">
+            <div class="fee-amount">KES 350 <span style="font-size:.82rem;font-weight:600">per twin</span></div>
+            <div class="fee-line">= KES 700 per pair</div>
+            <div class="fee-note">Covers snacks &amp; drinks + gate entry fee</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Payment Status</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="radio" name="payment_status" value="I have paid" required> I have paid</label>
+              <label class="checkbox-item"><input type="radio" name="payment_status" value="I need payment details" required> I need payment details</label>
+            </div>
+          </div>
+          <button type="submit" class="form-submit">Register Now</button>
+          <div class="form-status-msg" id="status-twinday"></div>
+          <div class="form-footer-note">
+            Already paid? Chat with us on WhatsApp for confirmation:
+            <div class="whatsapp-row">
+              <a href="https://wa.me/254713456329" target="_blank" rel="noopener" class="whatsapp-btn">+254 713 456 329</a>
+              <a href="https://wa.me/254711483892" target="_blank" rel="noopener" class="whatsapp-btn">+254 711 483 892</a>
+            </div>
+          </div>
+        </form>
+      `;
+    }
+
+    function helpTemplate() {
+      return `
+        <div class="modal-header">
+          <span class="modal-ribbon">Request Help</span>
+          <h2 class="modal-h2">Request Help for Vulnerable Mothers</h2>
+          <p class="modal-sub">Tell us about your situation and a KETA team member will reach out to support you.</p>
+        </div>
+        <form class="modal-form" id="form-help" onsubmit="return handleFormSubmit(event,'help')">
+          <input type="hidden" name="form_type" value="Request for Help - Vulnerable Mother of Twins">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" name="full_name" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Contact Number (WhatsApp)</label>
+              <input class="form-input" type="tel" name="contact" placeholder="e.g. 07XX XXX XXX" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">County of Residence</label>
+              <input class="form-input" type="text" name="county" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Number of Twins / Multiples</label>
+            <input class="form-input" type="number" name="num_twins" min="1" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type of Support Needed</label>
+            <select class="form-select" name="support_type" required>
+              <option value="" disabled selected>Select support type</option>
+              <option value="Financial support">Financial support</option>
+              <option value="Emotional support">Emotional support</option>
+              <option value="Medical / wound care">Medical / wound care</option>
+              <option value="Food & transport">Food &amp; transport</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Brief Description of Your Situation</label>
+            <textarea class="form-textarea" name="description" placeholder="Tell us a little about what you're going through..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit">Request Help Now</button>
+          <div class="form-status-msg" id="status-help"></div>
+          <div class="form-footer-note">
+            Prefer to talk directly? Chat with us on WhatsApp:
+            <div class="whatsapp-row">
+              <a href="https://wa.me/254713456329" target="_blank" rel="noopener" class="whatsapp-btn">+254 713 456 329</a>
+            </div>
+          </div>
+        </form>
+      `;
+    }
+
+    function membershipTemplate() {
+      return `
+        <div class="modal-header">
+          <span class="modal-ribbon">KETA Membership</span>
+          <h2 class="modal-h2">Become a KETA Member</h2>
+          <p class="modal-sub">Join a community that understands the journey of twins and multiples.</p>
+        </div>
+        <form class="modal-form" id="form-membership" onsubmit="return handleFormSubmit(event,'membership')">
+          <input type="hidden" name="form_type" value="KETA Membership Registration">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" name="full_name" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Contact Number (WhatsApp)</label>
+              <input class="form-input" type="tel" name="contact" placeholder="e.g. 07XX XXX XXX" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" type="email" name="email" placeholder="optional">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">County of Residence</label>
+              <input class="form-input" type="text" name="county" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">I am a...</label>
+              <select class="form-select" name="relationship" required>
+                <option value="" disabled selected>Select one</option>
+                <option value="Parent/Guardian of Twins">Parent / Guardian of Twins</option>
+                <option value="Twin/Multiple Myself">Twin / Multiple Myself</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Number of Twin / Multiple Sets in Family</label>
+            <input class="form-input" type="number" name="num_sets" min="1" required>
+          </div>
+          <div class="fee-box">
+            <div class="fee-amount">KSh 1,000 <span style="font-size:.82rem;font-weight:600">per pair</span></div>
+            <div class="fee-note">Membership registration fee for your family</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Payment Status</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item"><input type="radio" name="payment_status" value="I have paid" required> I have paid</label>
+              <label class="checkbox-item"><input type="radio" name="payment_status" value="I need payment details" required> I need payment details</label>
+            </div>
+          </div>
+          <button type="submit" class="form-submit">Register as Member</button>
+          <div class="form-status-msg" id="status-membership"></div>
+          <div class="form-footer-note">
+            Already paid? Chat with us on WhatsApp for confirmation:
+            <div class="whatsapp-row">
+              <a href="https://wa.me/254713456329" target="_blank" rel="noopener" class="whatsapp-btn">+254 713 456 329</a>
+              <a href="https://wa.me/254711483892" target="_blank" rel="noopener" class="whatsapp-btn">+254 711 483 892</a>
+            </div>
+          </div>
+        </form>
+      `;
+    }
+
+    const MODAL_TEMPLATES = { twinday: twindayTemplate, help: helpTemplate, membership: membershipTemplate };
+
+    function openModal(type) {
+      const content = document.getElementById('modalContent');
+      content.innerHTML = MODAL_TEMPLATES[type]();
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.classList.add('modal-lock');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.classList.remove('modal-lock');
+    }
+
+    function closeModalOutside(e) {
+      if (e.target.id === 'modalOverlay') closeModal();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function isEmailJSReady() {
+      return typeof emailjs !== 'undefined' &&
+        EMAILJS_CONFIG.publicKey  !== 'YOUR_PUBLIC_KEY' &&
+        EMAILJS_CONFIG.serviceId  !== 'YOUR_SERVICE_ID' &&
+        EMAILJS_CONFIG.templateId !== 'YOUR_TEMPLATE_ID';
+    }
+
+    function fallbackMailto(form, meta) {
+      const data = new FormData(form);
+      let body = '';
+      for (const [key, value] of data.entries()) {
+        if (key === 'form_type') continue;
+        const label = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        body += `${label}: ${value}\n`;
+      }
+      const mailtoUrl = `mailto:${meta.to}?subject=${encodeURIComponent(meta.subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoUrl;
+    }
+
+    function handleFormSubmit(e, type) {
+      e.preventDefault();
+      const form = e.target;
+      const statusEl = document.getElementById('status-' + type);
+      const meta = FORM_META[type];
+      const submitBtn = form.querySelector('.form-submit');
+
+      if (isEmailJSReady()) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+        emailjs.sendForm(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, form)
+          .then(() => {
+            statusEl.textContent = 'Thank you! Your submission has been received.';
+            statusEl.className = 'form-status-msg success';
+            form.reset();
+            setTimeout(closeModal, 2200);
+          })
+          .catch(() => {
+            statusEl.textContent = "Couldn't send via email — redirecting you to your email app...";
+            statusEl.className = 'form-status-msg error';
+            setTimeout(() => fallbackMailto(form, meta), 1200);
+          })
+          .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = submitBtn.dataset.label || submitBtn.textContent;
+          });
+      } else {
+        // EmailJS not configured yet — fall back to a pre-filled email draft
+        fallbackMailto(form, meta);
+      }
+      return false;
+    }
   </script>
 </body>
 </html>
