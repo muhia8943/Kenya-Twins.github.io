@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Partner With Us – KETA | Kenya Twins Association</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS (shared with main site) ────────────────── */
+    :root {
+      --blue:     #06ACE9;
+      --blue-lt:  #38C1F0;
+      --cream:    #F0F8FE;
+      --warm-wht: #E8F5FD;
+      --charcoal: #0B1C2C;
+      --crimson:  #8B0A0A;
+      --sand:     #B8DDF0;
+      --green:    #0577A8;
+      --red:      #C01010;
+      --gold:     #C9A24B;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--charcoal); overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: .4;
+    }
+
+    /* ─── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 4vw; background: rgba(240,248,254,.94); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(6,172,233,.15); transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 4px 32px rgba(6,172,233,.12); }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon { width: 52px; height: 52px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; background: var(--blue); font-family: 'Playfair Display', serif; font-weight: 900; color: #fff; font-size: 1.2rem; }
+    .nav-logo-text { font-family: 'Playfair Display', serif; font-weight: 700; color: var(--crimson); font-size: 1.1rem; line-height: 1.1; }
+    .nav-logo-sub { font-size: .65rem; font-weight: 500; color: var(--blue); letter-spacing: .08em; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 2.1rem; list-style: none; }
+    .nav-links a { text-decoration: none; font-size: .88rem; font-weight: 500; color: var(--charcoal); position: relative; padding-bottom: 2px; transition: color .2s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; right: 100%; height: 1.5px; background: var(--blue); transition: right .3s; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links a:hover::after { right: 0; }
+    .nav-cta { background: var(--crimson); color: #fff; border: none; padding: .55rem 1.4rem; border-radius: 2px; font-size: .85rem; font-weight: 600; cursor: pointer; text-decoration: none; letter-spacing: .02em; transition: background .2s, transform .15s; }
+    .nav-cta:hover { background: var(--blue); transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--charcoal); border-radius: 2px; }
+    .mobile-menu { display: none; }
+
+    /* ─── HERO ────────────────────────────────────────── */
+    .hero { min-height: 92vh; display: grid; grid-template-columns: 1.05fr .95fr; padding-top: 80px; overflow: hidden; }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 4vw 4rem 6vw; position: relative; z-index: 2; }
+    .hero-tag { display: inline-flex; align-items: center; gap: .5rem; font-size: .72rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); margin-bottom: 1.6rem; }
+    .hero-tag::before { content: ''; display: block; width: 28px; height: 1.5px; background: var(--blue); }
+    .hero-h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.6rem, 5vw, 4.6rem); font-weight: 900; line-height: 1.03; color: var(--crimson); letter-spacing: -.02em; margin-bottom: 1.4rem; }
+    .hero-h1 em { color: var(--blue); font-style: italic; }
+    .hero-sub { font-size: 1.05rem; line-height: 1.75; color: #1a3a50; max-width: 500px; margin-bottom: 2.2rem; font-weight: 300; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary, .btn-help { background: var(--blue); color: #fff; padding: .85rem 2rem; border: none; border-radius: 2px; text-decoration: none; font-weight: 600; font-size: .95rem; letter-spacing: .02em; cursor: pointer; transition: background .2s, transform .15s; display: inline-flex; align-items: center; gap: .5rem; font-family: 'DM Sans', sans-serif; }
+    .btn-primary:hover, .btn-help:hover { background: var(--crimson); transform: translateY(-2px); }
+    .btn-outline { border: 1.5px solid var(--blue); color: var(--blue); padding: .85rem 2rem; border-radius: 2px; text-decoration: none; font-weight: 600; font-size: .95rem; background: transparent; transition: all .2s; }
+    .btn-outline:hover { background: var(--blue); color: #fff; }
+    .hero-stats { display: flex; gap: 2.2rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--sand); flex-wrap: wrap; }
+    .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: var(--blue); line-height: 1; }
+    .hero-stat-label { font-size: .72rem; text-transform: uppercase; letter-spacing: .07em; margin-top: .3rem; color: #1a3a50; }
+    .hero-right { position: relative; overflow: hidden; background: var(--charcoal); display: flex; align-items: stretch; }
+    .hero-img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: .92; }
+    .hero-img-placeholder { width: 100%; height: 100%; position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: rgba(255,255,255,.55); text-align: center; padding: 2rem; }
+    .hero-badge { position: absolute; bottom: 2rem; left: -2rem; background: var(--cream); padding: 1.2rem 1.6rem; border-left: 4px solid var(--blue); max-width: 230px; box-shadow: 8px 8px 40px rgba(0,0,0,.2); }
+    .hero-badge-label { font-size: .65rem; text-transform: uppercase; letter-spacing: .1em; color: var(--blue); margin-bottom: .3rem; }
+    .hero-badge-text { font-family: 'Playfair Display', serif; font-size: 1.02rem; color: var(--crimson); line-height: 1.3; }
+
+    /* ─── TICKER ──────────────────────────────────────── */
+    .ticker { background: var(--charcoal); color: var(--cream); padding: .75rem 0; overflow: hidden; white-space: nowrap; }
+    .ticker-inner { display: inline-block; animation: ticker 24s linear infinite; }
+    .ticker-inner span { margin: 0 3rem; font-size: .82rem; font-weight: 500; letter-spacing: .05em; }
+    .ticker-inner .dot { color: var(--blue); font-size: 1rem; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── SECTION HEADER (shared) ────────────────────── */
+    .section-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .14em; color: var(--blue); margin-bottom: .6rem; }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.2rem; flex-wrap: wrap; gap: 1rem; }
+    .section-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 900; color: var(--crimson); line-height: 1.2; }
+    .section-header p { max-width: 460px; font-size: .92rem; color: #1a3a50; line-height: 1.7; font-weight: 300; }
+
+    /* ─── WHY PARTNER (pillars) ──────────────────────── */
+    .why-section { padding: 6.5rem 6vw; }
+    .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; background: var(--sand); }
+    .pillar { background: var(--cream); padding: 2.5rem 2rem; position: relative; overflow: hidden; transition: background .3s; }
+    .pillar:hover { background: var(--warm-wht); }
+    .pillar-number { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: rgba(6,172,233,.1); position: absolute; top: 1rem; right: 1.5rem; line-height: 1; }
+    .pillar-icon { font-size: 1.9rem; margin-bottom: 1rem; }
+    .pillar h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--crimson); margin-bottom: .8rem; }
+    .pillar p { font-size: .9rem; line-height: 1.7; color: #1f4a6a; font-weight: 300; }
+    .pillar-bar { position: absolute; bottom: 0; left: 0; right: 100%; height: 3px; background: var(--blue); transition: right .4s ease; }
+    .pillar:hover .pillar-bar { right: 0; }
+
+    /* ─── SIGNATURE: TWIN BOND ───────────────────────── */
+    .bond-section { background: var(--charcoal); color: var(--cream); padding: 7rem 6vw; position: relative; overflow: hidden; }
+    .bond-section::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 30% 20%, rgba(6,172,233,.06), transparent 45%), radial-gradient(circle at 75% 80%, rgba(139,10,10,.08), transparent 45%);
+      pointer-events: none;
+    }
+    .bond-head { text-align: center; max-width: 620px; margin: 0 auto 4rem; position: relative; z-index: 1; }
+    .bond-head .section-label { color: var(--blue-lt); justify-content: center; }
+    .bond-head h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; margin-bottom: 1rem; }
+    .bond-head h2 em { color: var(--blue-lt); font-style: italic; }
+    .bond-head p { font-size: .95rem; line-height: 1.8; color: rgba(255,255,255,.65); font-weight: 300; }
+    .bond-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: center; max-width: 1000px; margin: 0 auto; position: relative; z-index: 1; }
+    .bond-card { padding: 2.5rem; }
+    .bond-card.you { text-align: right; }
+    .bond-card.you .bond-list li { justify-content: flex-end; }
+    .bond-eyebrow { font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .8rem; font-weight: 700; }
+    .bond-card.you .bond-eyebrow { color: var(--blue-lt); }
+    .bond-card.us .bond-eyebrow { color: var(--gold); }
+    .bond-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 1.3rem; }
+    .bond-list { list-style: none; display: flex; flex-direction: column; gap: .9rem; }
+    .bond-list li { font-size: .9rem; line-height: 1.5; color: rgba(255,255,255,.75); display: flex; align-items: flex-start; gap: .6rem; font-weight: 300; }
+    .bond-card.you .bond-list li::after { content: '';  }
+    .bond-mark { width: 6px; height: 6px; border-radius: 50%; margin-top: .5rem; flex-shrink: 0; }
+    .bond-card.you .bond-mark { background: var(--blue-lt); order: 2; }
+    .bond-card.us .bond-mark { background: var(--gold); }
+    .bond-center { display: flex; flex-direction: column; align-items: center; gap: .8rem; padding: 0 1.5rem; }
+    .bond-circles { position: relative; width: 84px; height: 60px; }
+    .bond-circles span { position: absolute; top: 0; width: 52px; height: 52px; border-radius: 50%; border: 2.5px solid; }
+    .bond-circles span.c1 { left: 0; border-color: var(--blue-lt); }
+    .bond-circles span.c2 { left: 32px; border-color: var(--gold); }
+    .bond-center-label { font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.4); text-align: center; }
+    .bond-cta { text-align: center; margin-top: 3.5rem; position: relative; z-index: 1; }
+
+    /* ─── TRACKS (programme-card style) ──────────────── */
+    .tracks-section { padding: 7rem 6vw; background: var(--warm-wht); }
+    .tracks-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8rem; margin-top: 3rem; }
+    .track-card { background: var(--cream); border: 1px solid var(--sand); padding: 2.4rem 2rem 2rem; position: relative; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+    .track-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(6,172,233,.15); }
+    .track-ribbon { position: absolute; top: 0; right: 0; background: var(--crimson); color: #fff; font-size: .66rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: .4rem 2.6rem .4rem 1rem; clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%); box-shadow: -3px 3px 8px rgba(0,0,0,.15); }
+    .track-number { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 900; color: var(--blue); margin-bottom: .6rem; }
+    .track-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--crimson); margin-bottom: .3rem; line-height: 1.25; padding-right: 5rem; }
+    .track-tagline { font-style: italic; font-size: .85rem; color: var(--blue); margin-bottom: 1rem; font-weight: 500; }
+    .track-card p.track-desc { font-size: .92rem; line-height: 1.7; color: #1f4a6a; font-weight: 300; }
+    .track-card-bar { position: absolute; bottom: 0; left: 0; right: 100%; height: 3px; background: var(--blue); transition: right .4s ease; }
+    .track-card:hover .track-card-bar { right: 0; }
+
+    /* ─── EVENT SPONSORSHIP ───────────────────────────── */
+    .event-banner { background: var(--charcoal); color: var(--cream); padding: 6rem 6vw 5rem; position: relative; overflow: hidden; }
+    .event-banner::before { content: '2026'; position: absolute; right: -1rem; top: -2rem; font-family: 'Playfair Display', serif; font-size: 14rem; font-weight: 900; color: rgba(255,255,255,.03); line-height: 1; pointer-events: none; }
+    .event-head { max-width: 640px; margin-bottom: 3rem; position: relative; z-index: 1; }
+    .event-badge-row { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .event-chip { background: var(--blue); color: #fff; padding: .35rem .9rem; border-radius: 2px; font-size: .7rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+    .event-chip.outline { background: transparent; border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.7); }
+    .event-banner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 900; line-height: 1.2; margin-bottom: 1rem; }
+    .event-banner h2 em { color: var(--blue-lt); font-style: italic; }
+    .event-banner .event-sub { font-size: .95rem; line-height: 1.7; color: rgba(255,255,255,.65); font-weight: 300; }
+    .tiers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2px; background: rgba(255,255,255,.08); position: relative; z-index: 1; }
+    .tier-card { background: var(--charcoal); padding: 2.2rem 1.6rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .tier-card.gold { background: #12253a; }
+    .tier-name { font-size: .68rem; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.45); }
+    .tier-name.b { color: #c98a4b; } .tier-name.s { color: #b9c4cc; } .tier-name.g { color: var(--gold); } .tier-name.p { color: var(--blue-lt); }
+    .tier-amount { font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 900; color: #fff; line-height: 1; }
+    .tier-amount span { font-size: .7rem; font-weight: 500; color: rgba(255,255,255,.4); }
+    .tier-perks { list-style: none; display: flex; flex-direction: column; gap: .5rem; flex-grow: 1; }
+    .tier-perks li { font-size: .8rem; color: rgba(255,255,255,.6); line-height: 1.4; padding-left: .9rem; position: relative; }
+    .tier-perks li::before { content: '—'; position: absolute; left: 0; color: var(--blue-lt); }
+    .btn-tier { background: rgba(255,255,255,.08); color: #fff; border: 1px solid rgba(255,255,255,.18); padding: .65rem 1rem; border-radius: 2px; font-size: .8rem; font-weight: 600; cursor: pointer; transition: background .2s; font-family: 'DM Sans', sans-serif; }
+    .btn-tier:hover { background: var(--blue); border-color: var(--blue); }
+
+    /* ─── PROCESS ─────────────────────────────────────── */
+    .process-section { padding: 7rem 6vw; }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.8rem; margin-top: 3rem; position: relative; }
+    .process-step { position: relative; padding-top: 1.5rem; }
+    .process-step::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--sand); }
+    .process-step::after { content: ''; position: absolute; top: -4px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); }
+    .process-num { font-family: 'Playfair Display', serif; font-size: 2.3rem; font-weight: 900; color: var(--blue); margin-bottom: .7rem; }
+    .process-step h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--crimson); margin-bottom: .6rem; }
+    .process-step p { font-size: .87rem; line-height: 1.65; color: #1f4a6a; font-weight: 300; }
+
+    /* ─── QUOTE ───────────────────────────────────────── */
+    .partner-quote { background: var(--blue); padding: 4.5rem 6vw; display: flex; justify-content: center; }
+    .partner-quote blockquote { max-width: 720px; text-align: center; }
+    .partner-quote p { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.2rem, 2.4vw, 1.7rem); color: #fff; line-height: 1.5; margin-bottom: 1.2rem; }
+    .partner-quote cite { font-size: .8rem; color: rgba(255,255,255,.75); letter-spacing: .05em; }
+
+    /* ─── FINAL CTA STRIP ─────────────────────────────── */
+    .theme-strip { background: var(--crimson); padding: 4rem 6vw; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .theme-strip-text h3 { font-family: 'Playfair Display', serif; font-size: clamp(1.2rem, 2.5vw, 1.8rem); color: #fff; font-weight: 900; margin-bottom: .4rem; }
+    .theme-strip-text p { color: rgba(255,255,255,.8); font-size: .95rem; line-height: 1.6; max-width: 520px; }
+    .btn-white { background: #fff; color: var(--crimson); padding: .9rem 2.1rem; border-radius: 2px; text-decoration: none; font-weight: 700; font-size: .95rem; display: inline-block; text-align: center; transition: background .2s, transform .15s; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    .btn-white:hover { background: var(--cream); transform: translateY(-2px); }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    footer { background: var(--charcoal); color: var(--cream); }
+    .footer-top { padding: 5rem 6vw; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
+    .footer-brand h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: #fff; margin-bottom: .5rem; }
+    .footer-brand .tagline { color: var(--blue-lt); font-size: .85rem; margin-bottom: 1.2rem; }
+    .footer-brand p { font-size: .85rem; line-height: 1.7; color: rgba(255,255,255,.55); font-weight: 300; }
+    .footer-contact-item { display: flex; align-items: flex-start; gap: .7rem; margin-bottom: .9rem; }
+    .footer-contact-item svg { flex-shrink: 0; margin-top: 2px; opacity: .7; }
+    .footer-contact-item span { font-size: .85rem; color: rgba(255,255,255,.65); line-height: 1.5; }
+    .footer-contact-item a { color: rgba(255,255,255,.65); text-decoration: none; transition: color .2s; }
+    .footer-contact-item a:hover { color: var(--blue-lt); }
+    .footer-col h4 { font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.4); margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: .65rem; }
+    .footer-col a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .88rem; transition: color .2s; }
+    .footer-col a:hover { color: var(--blue-lt); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 1.5rem 6vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom p { font-size: .78rem; color: rgba(255,255,255,.3); }
+    .footer-bottom a { color: rgba(255,255,255,.4); text-decoration: none; }
+    .footer-bottom a:hover { color: var(--blue-lt); }
+
+    /* ─── REVEAL ──────────────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── MODAL / FORM (shared with main site) ───────── */
+    body.modal-lock { overflow: hidden; }
+    .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(11,28,44,.78); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; padding: 2rem 1rem; opacity: 0; transition: opacity .25s ease; }
+    .modal-overlay.open { display: flex; opacity: 1; }
+    .modal-box { background: var(--cream); width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; position: relative; border-radius: 6px; box-shadow: 8px 8px 8px rgba(0,0,0,.1), 0 30px 80px rgba(0,0,0,.35); animation: modalIn .35s cubic-bezier(.2,.8,.3,1); }
+    @keyframes modalIn { from { transform: translateY(24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+    .modal-close { position: absolute; top: .9rem; right: .9rem; z-index: 3; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.18); border: none; color: #fff; font-size: 1.5rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s, transform .15s; }
+    .modal-close:hover { background: rgba(255,255,255,.32); transform: rotate(90deg); }
+    .modal-header { background: var(--blue); color: #fff; padding: 2.4rem 2rem 1.7rem; position: relative; overflow: hidden; }
+    .modal-header::before { content: ''; position: absolute; right: -2rem; top: -2rem; width: 150px; height: 150px; background: rgba(255,255,255,.08); border-radius: 50%; }
+    .modal-header::after { content: ''; position: absolute; left: -3rem; bottom: -3rem; width: 120px; height: 120px; background: rgba(255,255,255,.06); border-radius: 50%; }
+    .modal-ribbon { display: inline-block; background: var(--crimson); color: #fff; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .35rem .9rem .35rem .8rem; border-radius: 2px; margin-bottom: .9rem; clip-path: polygon(0 0, 100% 0, 92% 100%, 0% 100%); position: relative; z-index: 1; }
+    .modal-h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 3vw, 1.65rem); font-weight: 900; line-height: 1.25; margin-bottom: .6rem; position: relative; z-index: 1; }
+    .modal-sub { font-size: .9rem; line-height: 1.65; opacity: .94; font-weight: 300; max-width: 460px; position: relative; z-index: 1; }
+    .modal-form { padding: 1.8rem 2rem 2.2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { margin-bottom: 1.15rem; }
+    .form-label { display: block; font-size: .72rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--crimson); margin-bottom: .4rem; }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: .7rem .9rem; border: 1.5px solid var(--sand); border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: .92rem; background: #fff; color: var(--charcoal); transition: border-color .2s, box-shadow .2s; }
+    .form-textarea { resize: vertical; min-height: 90px; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(6,172,233,.15); }
+    .form-submit { width: 100%; background: var(--crimson); color: #fff; border: none; padding: 1rem; border-radius: 2px; font-weight: 700; font-size: .98rem; letter-spacing: .02em; cursor: pointer; transition: background .2s, transform .15s; margin-top: .3rem; font-family: 'DM Sans', sans-serif; }
+    .form-submit:hover { background: #6b0808; transform: translateY(-2px); }
+    .form-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .form-status-msg { display: none; text-align: center; padding: .8rem 1rem; border-radius: 2px; font-size: .86rem; margin-top: 1rem; font-weight: 500; }
+    .form-status-msg.success { background: rgba(6,172,233,.12); color: var(--green); display: block; }
+    .form-status-msg.error { background: rgba(192,16,16,.1); color: var(--red); display: block; }
+    .form-footer-note { text-align: center; font-size: .82rem; color: #1a3a50; margin-top: 1.3rem; padding-top: 1.2rem; border-top: 1px solid var(--sand); display: flex; flex-direction: column; align-items: center; gap: .6rem; }
+    .whatsapp-row { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; }
+    .whatsapp-btn { display: inline-flex; align-items: center; gap: .45rem; background: #25D366; color: #fff; padding: .55rem 1.1rem; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: .8rem; transition: transform .15s, box-shadow .2s; }
+    .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(37,211,102,.35); }
+
+    /* ─── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 3rem 5vw; }
+      .hero-right { min-height: 320px; }
+      .hero-badge { display: none; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu.open { display: flex; flex-direction: column; gap: 1rem; position: fixed; inset: 0; top: 70px; background: var(--cream); padding: 2rem 5vw; z-index: 99; border-top: 1px solid var(--sand); overflow-y: auto; }
+      .mobile-menu.open a { font-size: 1.15rem; font-weight: 600; color: var(--crimson); text-decoration: none; padding: .8rem 0; border-bottom: 1px solid var(--sand); }
+      .pillars { grid-template-columns: 1fr; }
+      .bond-grid { grid-template-columns: 1fr; text-align: center; }
+      .bond-card.you, .bond-card.us { text-align: center; }
+      .bond-card.you .bond-list li { justify-content: center; }
+      .bond-card.you .bond-mark { order: 0; }
+      .bond-center { flex-direction: row; padding: 1.5rem 0; }
+      .bond-circles { transform: rotate(90deg); }
+      .tracks-grid { grid-template-columns: 1fr; }
+      .tiers-grid { grid-template-columns: 1fr 1fr; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .theme-strip { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 600px) {
+      .tiers-grid { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; }
+      .btn-primary, .btn-outline { text-align: center; justify-content: center; }
+      .form-row { grid-template-columns: 1fr; }
+      .modal-header { padding: 2rem 1.4rem 1.4rem; }
+      .modal-form { padding: 1.5rem 1.4rem 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="index.html#home" class="nav-logo">
+      <div class="nav-logo-icon"><img src="images/1.jpeg" alt=""></div>
+      <div>
+        <div class="nav-logo-text">KETA</div>
+        <div class="nav-logo-sub">Kenya Twins Association</div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="#why">Why Partner</a></li>
+      <li><a href="#tracks">Tracks</a></li>
+      <li><a href="#event">Sponsor 2026</a></li>
+      <li><a href="#process">How It Works</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button type="button" class="nav-cta" onclick="openModal('partner')">Become a Partner</button>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#home" onclick="closeMobile()">Home</a>
+    <a href="#why" onclick="closeMobile()">Why Partner</a>
+    <a href="#tracks" onclick="closeMobile()">Tracks</a>
+    <a href="#event" onclick="closeMobile()">Sponsor 2026</a>
+    <a href="#process" onclick="closeMobile()">How It Works</a>
+    <a href="#contact" onclick="closeMobile()">Contact</a>
+    <a href="#" class="btn-primary" onclick="closeMobile();openModal('partner')" style="text-align:center">Become a Partner →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <div class="hero-tag">Partner With KETA</div>
+      <h1 class="hero-h1">Twin Your Brand<br>With <em>Purpose</em></h1>
+      <p class="hero-sub">Every partnership KETA forms works the way the bond it celebrates does — two sides, moving together, stronger for it. Bring your organisation alongside Kenya's home for twins, triplets, and multiple births.</p>
+      <div class="hero-btns">
+        <button type="button" class="btn-primary" onclick="openModal('partner')">Become a Partner →</button>
+        <a href="#event" class="btn-outline">See Sponsorship Packages</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="hero-stat-num">4</div><div class="hero-stat-label">Active Programmes</div></div>
+        <div><div class="hero-stat-num">2 Aug</div><div class="hero-stat-label">World Twins Day 2026</div></div>
+        <div><div class="hero-stat-num">2</div><div class="hero-stat-label">Global Affiliate Networks</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="./images/7.jpeg" alt="KETA partnership" class="hero-img"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+
+      <div class="hero-badge">
+        <div class="hero-badge-label">Global Affiliate</div>
+        <div class="hero-badge-text">Africa Twins Association & GTMBO</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-inner">
+      <span>Become a Partner</span><span class="dot">◆</span>
+      <span>World Twins Day 2026 Sponsorships Open</span><span class="dot">◆</span>
+      <span>Corporate · Health · Media · Schools</span><span class="dot">◆</span>
+      <span>Double the Love, Share the Care</span><span class="dot">◆</span>
+      <span>Become a Partner</span><span class="dot">◆</span>
+      <span>World Twins Day 2026 Sponsorships Open</span><span class="dot">◆</span>
+      <span>Corporate · Health · Media · Schools</span><span class="dot">◆</span>
+      <span>Double the Love, Share the Care</span><span class="dot">◆</span>
+    </div>
+  </div>
+
+  <!-- WHY PARTNER -->
+  <section class="why-section" id="why">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Why Partner With KETA</div>
+        <h2>Three Reasons Organisations Choose Us</h2>
+      </div>
+      <p>KETA sits at the intersection of a tight-knit community and a genuinely uncommon story — that's a rare combination for any partner to tap into.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar reveal">
+        <div class="pillar-number">01</div>
+        <div class="pillar-icon">◈</div>
+        <h3>Real, Visible Impact</h3>
+        <p>Your support funds a relief fund cycle, a school term, or a skills cohort — not a brand mention. We report back on exactly who it reached.</p>
+        <div class="pillar-bar"></div>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-number">02</div>
+        <div class="pillar-icon">◈</div>
+        <h3>A Story People Remember</h3>
+        <p>Twins carry instant warmth and curiosity. Attaching your name to that story gives your brand a feel-good angle audiences don't scroll past.</p>
+        <div class="pillar-bar"></div>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-number">03</div>
+        <div class="pillar-icon">◈</div>
+        <h3>A Network, Not Just an Event</h3>
+        <p>Through our affiliation with Africa Twins Association and Global Twins & Multiple Birth Organizations, your reach travels beyond Kenya's borders.</p>
+        <div class="pillar-bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGNATURE: TWIN BOND -->
+  <section class="bond-section">
+    <div class="bond-head reveal">
+      <div class="section-label">The Twin Bond</div>
+      <h2>A Partnership Is a <em>Pair</em>, Not a Transaction</h2>
+      <p>We think of every partner the same way we think of twins — two distinct sides that only reach full strength when they're matched. Here's what that pairing looks like in practice.</p>
+    </div>
+    <div class="bond-grid reveal">
+      <div class="bond-card you">
+        <div class="bond-eyebrow">What You Bring</div>
+        <h3>You</h3>
+        <ul class="bond-list">
+          <li><span>Funding, products, or in-kind services</span><span class="bond-mark"></span></li>
+          <li><span>Media reach or a distribution channel</span><span class="bond-mark"></span></li>
+          <li><span>Professional expertise — medical, legal, creative</span><span class="bond-mark"></span></li>
+          <li><span>Staff time and volunteer energy</span><span class="bond-mark"></span></li>
+        </ul>
+      </div>
+      <div class="bond-center">
+        <div class="bond-circles"><span class="c1"></span><span class="c2"></span></div>
+        <div class="bond-center-label">Matched<br>Partnership</div>
+      </div>
+      <div class="bond-card us">
+        <div class="bond-eyebrow">What We Bring</div>
+        <h3>KETA</h3>
+        <ul class="bond-list">
+          <li><span class="bond-mark"></span><span>A verified network of twin and multiple-birth families</span></li>
+          <li><span class="bond-mark"></span><span>Visibility at World Twins Day and across our channels</span></li>
+          <li><span class="bond-mark"></span><span>A ready-made, reportable CSR story</span></li>
+          <li><span class="bond-mark"></span><span>A direct line to a vocal, loyal community</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bond-cta reveal">
+      <button type="button" class="btn-white" onclick="openModal('partner')">Start the Pairing →</button>
+    </div>
+  </section>
+
+  <!-- TRACKS -->
+  <section class="tracks-section" id="tracks">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">Partnership Tracks</div>
+        <h2>Find the Track That Fits You</h2>
+      </div>
+      <p>Every organisation supports differently. These are the four lanes most of our partners come through.</p>
+    </div>
+    <div class="tracks-grid">
+      <div class="track-card reveal">
+        <div class="track-ribbon">Open</div>
+        <div class="track-number">01</div>
+        <h3>Corporate CSR Partner</h3>
+        <div class="track-tagline">Fund a cycle, not a campaign</div>
+        <p class="track-desc">Sponsor a relief fund cycle, cover a term of school fees for twin families, or co-brand a skills-training cohort. Comes with a reportable impact summary for your CSR records.</p>
+        <div class="track-card-bar"></div>
+      </div>
+      <div class="track-card reveal">
+        <div class="track-ribbon">Open</div>
+        <div class="track-number">02</div>
+        <h3>Health & Hospital Partner</h3>
+        <div class="track-tagline">Care that reaches mothers earlier</div>
+        <p class="track-desc">Maternity wards, pediatric clinics, and health practitioners offering referrals, screenings, or subsidised care for mothers carrying or raising multiples.</p>
+        <div class="track-card-bar"></div>
+      </div>
+      <div class="track-card reveal">
+        <div class="track-ribbon">Open</div>
+        <div class="track-number">03</div>
+        <h3>Media & Storytelling Partner</h3>
+        <div class="track-tagline">Carry the story further</div>
+        <p class="track-desc">Radio, TV, print, or digital platforms amplifying twin stories, covering World Twins Day, or running awareness segments on multiple-birth families.</p>
+        <div class="track-card-bar"></div>
+      </div>
+      <div class="track-card reveal">
+        <div class="track-ribbon">Grant Dependent</div>
+        <div class="track-number">04</div>
+        <h3>School & Youth Partner</h3>
+        <div class="track-tagline">Twice the talent, twice the opportunity</div>
+        <p class="track-desc">Colleges, universities, and training institutes offering scholarships, mentorship, or placement pathways for young twins and multiples.</p>
+        <div class="track-card-bar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENT SPONSORSHIP -->
+  <section class="event-banner" id="event">
+    <div class="event-head reveal">
+      <div class="event-badge-row">
+        <span class="event-chip">2nd August 2026</span>
+        <span class="event-chip outline">Ngong Hills</span>
+      </div>
+      <h2>Sponsor World Twins Day <em>2026</em></h2>
+      <p class="event-sub">Our flagship event — hiking, team building, and photography, with twins and their families gathering from across the country. Four tiers, each with a clear return.</p>
+    </div>
+    <div class="tiers-grid reveal">
+      <div class="tier-card">
+        <div class="tier-name b">Bronze</div>
+        <div class="tier-amount">20K<span> KSh</span></div>
+        <ul class="tier-perks">
+          <li>Logo on event banners</li>
+          <li>Mention in the day's programme</li>
+          <li>Social media shout-out</li>
+        </ul>
+        <button type="button" class="btn-tier" onclick="openModal('partner')">Reserve This Tier</button>
+      </div>
+      <div class="tier-card">
+        <div class="tier-name s">Silver</div>
+        <div class="tier-amount">50K<span> KSh</span></div>
+        <ul class="tier-perks">
+          <li>Everything in Bronze</li>
+          <li>Branded booth on-site</li>
+          <li>Logo on registration materials</li>
+        </ul>
+        <button type="button" class="btn-tier" onclick="openModal('partner')">Reserve This Tier</button>
+      </div>
+      <div class="tier-card gold">
+        <div class="tier-name g">Gold</div>
+        <div class="tier-amount">100K<span> KSh</span></div>
+        <ul class="tier-perks">
+          <li>Everything in Silver</li>
+          <li>Speaking slot at the event</li>
+          <li>Dedicated social media feature</li>
+        </ul>
+        <button type="button" class="btn-tier" onclick="openModal('partner')">Reserve This Tier</button>
+      </div>
+      <div class="tier-card">
+        <div class="tier-name p">Platinum</div>
+        <div class="tier-amount">250K<span>+ KSh</span></div>
+        <ul class="tier-perks">
+          <li>Title sponsor naming rights</li>
+          <li>Everything in Gold</li>
+          <li>Press & media mentions</li>
+        </ul>
+        <button type="button" class="btn-tier" onclick="openModal('partner')">Reserve This Tier</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process-section" id="process">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-label">How It Works</div>
+        <h2>From First Message to Launch</h2>
+      </div>
+      <p>Four steps, start to finish. Most partnerships are agreed within two to three weeks.</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="process-num">01</div>
+        <h4>Reach Out</h4>
+        <p>Tell us about your organisation and what you'd like to support — a fund, an event, or a track.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">02</div>
+        <h4>We Match a Track</h4>
+        <p>Our team pairs you with the programme or sponsorship tier that fits your goals and budget.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">03</div>
+        <h4>Co-Create the Plan</h4>
+        <p>We agree on deliverables, timelines, and how your organisation will be recognised.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-num">04</div>
+        <h4>Launch & Celebrate</h4>
+        <p>Your partnership goes live — and we celebrate the impact together, publicly and proudly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <section class="partner-quote">
+    <blockquote class="reveal">
+      <p>"Supporting KETA's relief fund gave our team a cause we could see the results of — real families, real terms of school fees paid. It's the most tangible CSR work we've done."</p>
+      <cite>— A 2025 Corporate Partner</cite>
+    </blockquote>
+  </section>
+
+  <!-- FINAL CTA -->
+  <div class="theme-strip">
+    <div class="theme-strip-text">
+      <h3>Ready to Double the Impact?</h3>
+      <p>Whichever track fits you, the conversation starts with one message. Let's talk about what a partnership with KETA could look like.</p>
+    </div>
+    <button type="button" class="btn-white" onclick="openModal('partner')">Become a Partner →</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>Kenya Twins Association</h3>
+        <div class="tagline">KETA — Twinning is Winning</div>
+        <p>Kenya's home for twins, triplets, and all multiple births. Building community, empowering families, and celebrating every multiple birth story since 2023.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C5.24 1 3 3.24 3 6c0 4 5 9 5 9s5-5 5-9c0-2.76-2.24-5-5-5zm0 6.5A1.5 1.5 0 1 1 8 4a1.5 1.5 0 0 1 0 3.5z" fill="currentColor" opacity=".7"/></svg>
+          <span>P.O. Box 11,<br>Kajiado, Kenya</span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.6 10.4l-2.4-.8a.5.5 0 0 0-.5.1l-1.1 1.1a7.8 7.8 0 0 1-3.4-3.4l1.1-1.1a.5.5 0 0 0 .1-.5l-.8-2.4A.5.5 0 0 0 6 3H4a1 1 0 0 0-1 1.1C3.5 10 6 12.5 12 13a1 1 0 0 0 1.1-1V10.9a.5.5 0 0 0-.4-.5z" fill="currentColor" opacity=".7"/></svg>
+          <span><a href="tel:+254713456329">0713 456 329</a><br><small style="opacity:.5">Phone / WhatsApp</small></span>
+        </div>
+        <div class="footer-contact-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1" stroke="currentColor" stroke-width="1.2" opacity=".7"/><path d="M1 4l7 5 7-5" stroke="currentColor" stroke-width="1.2" opacity=".7"/></svg>
+          <span><a href="mailto:kenyatwins7@gmail.com">kenyatwins7@gmail.com</a></span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#about">About KETA</a></li>
+          <li><a href="index.html#programmes">Programmes</a></li>
+          <li><a href="#why">Why Partner</a></li>
+          <li><a href="#event">World Twins Day 2026</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Partner With Us</h4>
+        <ul>
+          <li><a href="#tracks">Partnership Tracks</a></li>
+          <li><a href="#event">Sponsorship Tiers</a></li>
+          <li><a href="#process">How It Works</a></li>
+          <li><a href="#" onclick="openModal('partner');return false;">Submit an Inquiry</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Kenya Twins Association – KETA. All rights reserved.</p>
+      <p>Site admin: <a href="mailto:abdirashidtulito@gmail.com">Abdirashid Tulito</a></p>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal-box" id="modalBox" role="dialog" aria-modal="true">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close form">&times;</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script>
+    // NAV scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 40));
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    function closeMobile() { mobileMenu.classList.remove('open'); }
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => obs.observe(el));
+
+    /* ══════════════════════════════════════════════════════
+       PARTNERSHIP INQUIRY MODAL FORM
+       Sends via mailto by default. To wire up EmailJS instead,
+       add the EmailJS script tag + your keys, matching the
+       pattern used on the main KETA site.
+       ══════════════════════════════════════════════════════ */
+
+    const FORM_META = {
+      partner: { subject: 'KETA Partnership Inquiry', to: 'kenyatwins7@gmail.com' }
+    };
+
+    function partnerTemplate() {
+      return `
+        <div class="modal-header">
+          <span class="modal-ribbon">Partner With KETA</span>
+          <h2 class="modal-h2">Tell Us About Your Organisation</h2>
+          <p class="modal-sub">Share a few details and our partnerships team will get back to you within a few working days.</p>
+        </div>
+        <form class="modal-form" id="form-partner" onsubmit="return handleFormSubmit(event,'partner')">
+          <input type="hidden" name="form_type" value="KETA Partnership Inquiry">
+          <div class="form-group">
+            <label class="form-label">Organisation Name</label>
+            <input class="form-input" type="text" name="organisation" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Contact Person</label>
+              <input class="form-input" type="text" name="contact_person" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role / Title</label>
+              <input class="form-input" type="text" name="role" placeholder="e.g. CSR Manager">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input class="form-input" type="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input class="form-input" type="tel" name="phone" placeholder="e.g. 07XX XXX XXX" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type of Partnership</label>
+            <select class="form-select" name="partnership_type" required>
+              <option value="" disabled selected>Select a track</option>
+              <option value="Corporate CSR Partner">Corporate CSR Partner</option>
+              <option value="Health & Hospital Partner">Health & Hospital Partner</option>
+              <option value="Media & Storytelling Partner">Media & Storytelling Partner</option>
+              <option value="School & Youth Partner">School & Youth Partner</option>
+              <option value="World Twins Day 2026 Sponsorship">World Twins Day 2026 Sponsorship</option>
+              <option value="Other / Not Sure Yet">Other / Not sure yet</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Proposed Support or Contribution</label>
+            <input class="form-input" type="text" name="proposed_support" placeholder="e.g. KSh 50,000, in-kind services, media coverage...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tell Us More</label>
+            <textarea class="form-textarea" name="message" placeholder="What would you like this partnership to achieve?"></textarea>
+          </div>
+          <button type="submit" class="form-submit">Send Inquiry</button>
+          <div class="form-status-msg" id="status-partner"></div>
+          <div class="form-footer-note">
+            Prefer to talk directly? Chat with us on WhatsApp:
+            <div class="whatsapp-row">
+              <a href="https://wa.me/254713456329" target="_blank" rel="noopener" class="whatsapp-btn">+254 713 456 329</a>
+            </div>
+          </div>
+        </form>
+      `;
+    }
+
+    const MODAL_TEMPLATES = { partner: partnerTemplate };
+
+    function openModal(type) {
+      const content = document.getElementById('modalContent');
+      content.innerHTML = MODAL_TEMPLATES[type]();
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.classList.add('modal-lock');
+    }
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.classList.remove('modal-lock');
+    }
+    function closeModalOutside(e) { if (e.target.id === 'modalOverlay') closeModal(); }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    function fallbackMailto(form, meta) {
+      const data = new FormData(form);
+      let body = '';
+      for (const [key, value] of data.entries()) {
+        if (key === 'form_type') continue;
+        const label = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        body += `${label}: ${value}\n`;
+      }
+      const mailtoUrl = `mailto:${meta.to}?subject=${encodeURIComponent(meta.subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailtoUrl;
+    }
+
+    function handleFormSubmit(e, type) {
+      e.preventDefault();
+      const form = e.target;
+      const statusEl = document.getElementById('status-' + type);
+      const meta = FORM_META[type];
+      statusEl.textContent = "Opening your email app to send this inquiry...";
+      statusEl.className = 'form-status-msg success';
+      setTimeout(() => fallbackMailto(form, meta), 900);
+      return false;
+    }
+  </script>
+</body>
+</html>

@@ -694,11 +694,101 @@
     .btn-white, .btn-help, .btn-membership {
       border: none; cursor: pointer; font-family: 'DM Sans', sans-serif;
     }
+    /* Partner Section */
+
+.partner-section{
+    padding:80px 8%;
+    background:#f8fbff;
+}
+
+.partner-container{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+    flex-wrap:wrap;
+}
+
+.partner-text{
+    flex:1;
+    min-width:320px;
+}
+
+.partner-tag{
+    display:inline-block;
+    background:#00AEEF;
+    color:#fff;
+    padding:8px 18px;
+    border-radius:30px;
+    font-size:.9rem;
+    font-weight:600;
+    margin-bottom:18px;
+}
+
+.partner-text h2{
+    font-size:2.5rem;
+    color:#9E1B1F;
+    margin-bottom:20px;
+}
+
+.partner-text p{
+    font-size:1.05rem;
+    color:#555;
+    line-height:1.8;
+    margin-bottom:30px;
+}
+
+.partner-btn{
+    display:inline-block;
+    padding:15px 35px;
+    background:#9E1B1F;
+    color:#fff;
+    text-decoration:none;
+    border-radius:50px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.partner-btn:hover{
+    background:#00AEEF;
+    transform:translateY(-3px);
+}
+
+.partner-image{
+    flex:1;
+    text-align:center;
+    min-width:280px;
+}
+
+.partner-image img{
+    width:100%;
+    max-width:360px;
+    filter:drop-shadow(0 15px 30px rgba(0,0,0,.15));
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+    .partner-container{
+        flex-direction:column-reverse;
+        text-align:center;
+        gap:40px;
+    }
+
+    .partner-text h2{
+        font-size:2rem;
+    }
+
+}
     @media (max-width: 480px) {
       .form-row { grid-template-columns: 1fr; }
       .modal-header { padding: 2rem 1.4rem 1.4rem; }
       .modal-form { padding: 1.5rem 1.4rem 1.8rem; }
     }
+
   </style>
 </head>
 <body>
@@ -717,7 +807,7 @@
 </a>
     <ul class="nav-links">
       <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
+      <li><a href="partner.html">Be a Partner</a></li>
       <li><a href="#programmes">Programmes</a></li>
       <li><a href="#help">Request Help</a></li>
       <li><a href="#event">Event 2026</a></li>
@@ -730,7 +820,7 @@
   </nav>
   <div class="mobile-menu" id="mobileMenu">
     <a href="#home" onclick="closeMobile()">Home</a>
-    <a href="#about" onclick="closeMobile()">About</a>
+    <a href="partner.html" onclick="closeMobile()">Be a Partner</a>
     <a href="#programmes" onclick="closeMobile()">Programmes</a>
     <a href="#help" onclick="closeMobile()">Request Help</a>
     <a href="#event" onclick="closeMobile()">Event 2026</a>
@@ -844,6 +934,26 @@
 </div>
     </div>
   </section>
+
+  <section class="partner-section">
+    <div class="partner-container">
+
+        <div class="partner-text">
+            <h2>Partner With Kenya Twins Association</h2>
+
+            <p>
+                Join us in empowering twins and promoting community development
+                across Kenya. Your partnership helps us organize impactful events,
+                support families, advocate for twins' welfare, and create lasting
+                opportunities for future generations.
+            </p>
+
+            <a href="partner.html" class="partner-btn">
+                Partner With Us
+            </a>
+        </div>
+    </div>
+</section>
 
   <!-- MEMBERSHIP CTA -->
   <section class="membership-section" id="membership">
