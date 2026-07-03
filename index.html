@@ -1298,7 +1298,7 @@
     </div>
   </div>
 
-  <script>
+<script>
     // NAV scroll
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
@@ -1331,11 +1331,16 @@
     // placeholder values with your real Public Key, Service ID, and
     // Template ID from https://dashboard.emailjs.com/
     const EMAILJS_CONFIG = {
-      publicKey:  'YOUR_PUBLIC_KEY',
-      serviceId:  'YOUR_SERVICE_ID',
-      templateId: 'YOUR_TEMPLATE_ID'
+      publicKey: 'oAwg8IyerNlky0R60',
+      serviceId: 'service_dfzoim7',
+      templates: {
+        twinday: 'template_jnxokou',
+        help: 'template_17qkhmj',
+        membership: 'YOUR_MEMBERSHIP_TEMPLATE_ID'
+      }
     };
-    if (typeof emailjs !== 'undefined' && EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
+
+    if (typeof emailjs !== 'undefined') {
       emailjs.init(EMAILJS_CONFIG.publicKey);
     }
 
@@ -1364,6 +1369,7 @@
               <label class="form-label">Your Twin's Full Name</label>
               <input class="form-input" type="text" name="twin_name" required>
             </div>
+            
           </div>
           <div class="form-row">
             <div class="form-group">
@@ -1379,6 +1385,16 @@
             <label class="form-label">Contact Number (WhatsApp)</label>
             <input class="form-input" type="tel" name="contact" placeholder="e.g. 07XX XXX XXX" required>
           </div>
+          <div class="form-group">
+  <label class="form-label">Email Address</label>
+  <input
+    class="form-input"
+    type="email"
+    name="email"
+    placeholder="e.g. example@gmail.com"
+    required
+  >
+</div>
           <div class="fee-box">
             <div class="fee-amount">KES 350 <span style="font-size:.82rem;font-weight:600">per twin</span></div>
             <div class="fee-line">= KES 700 per pair</div>
@@ -1547,10 +1563,11 @@
     });
 
     function isEmailJSReady() {
-      return typeof emailjs !== 'undefined' &&
-        EMAILJS_CONFIG.publicKey  !== 'YOUR_PUBLIC_KEY' &&
-        EMAILJS_CONFIG.serviceId  !== 'YOUR_SERVICE_ID' &&
-        EMAILJS_CONFIG.templateId !== 'YOUR_TEMPLATE_ID';
+      return (
+        typeof emailjs !== 'undefined' &&
+        EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY' &&
+        EMAILJS_CONFIG.serviceId !== 'YOUR_SERVICE_ID'
+      );
     }
 
     function fallbackMailto(form, meta) {
@@ -1567,34 +1584,62 @@
 
     function handleFormSubmit(e, type) {
       e.preventDefault();
+
       const form = e.target;
       const statusEl = document.getElementById('status-' + type);
-      const meta = FORM_META[type];
       const submitBtn = form.querySelector('.form-submit');
 
-      if (isEmailJSReady()) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
-        emailjs.sendForm(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, form)
-          .then(() => {
-            statusEl.textContent = 'Thank you! Your submission has been received.';
-            statusEl.className = 'form-status-msg success';
-            form.reset();
-            setTimeout(closeModal, 2200);
-          })
-          .catch(() => {
-            statusEl.textContent = "Couldn't send via email — redirecting you to your email app...";
-            statusEl.className = 'form-status-msg error';
-            setTimeout(() => fallbackMailto(form, meta), 1200);
-          })
-          .finally(() => {
-            submitBtn.disabled = false;
-            submitBtn.textContent = submitBtn.dataset.label || submitBtn.textContent;
-          });
-      } else {
-        // EmailJS not configured yet — fall back to a pre-filled email draft
-        fallbackMailto(form, meta);
+      if (!isEmailJSReady()) {
+        statusEl.textContent='Email service has not been configured.';
+        statusEl.className='form-status-msg error';
+        return false;
       }
+
+      const originalText=submitBtn.textContent;
+      submitBtn.disabled=true;
+      submitBtn.textContent='Sending...';
+
+      if(type === 'membership'){
+        emailjs.init('3gTPTxtwhQqqXwBI5');
+        emailjs.sendForm(
+          'service_uzstkfx',
+          'template_x1px9qq',
+          form
+        ).then(()=>{
+          statusEl.textContent='Thank you! Your submission has been received.';
+          statusEl.className='form-status-msg success';
+          form.reset();
+          setTimeout(closeModal,2200);
+        }).catch((err)=>{
+          console.error(err);
+          statusEl.textContent='Something went wrong. Please try again.';
+          statusEl.className='form-status-msg error';
+        }).finally(()=>{
+          submitBtn.disabled=false;
+          submitBtn.textContent=originalText;
+          emailjs.init(EMAILJS_CONFIG.publicKey);
+        });
+        return false;
+      }
+
+      emailjs.sendForm(
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templates[type],
+        form
+      ).then(()=>{
+        statusEl.textContent='Thank you! Your submission has been received.';
+        statusEl.className='form-status-msg success';
+        form.reset();
+        setTimeout(closeModal,2200);
+      }).catch((err)=>{
+        console.error(err);
+        statusEl.textContent='Something went wrong. Please try again.';
+        statusEl.className='form-status-msg error';
+      }).finally(()=>{
+        submitBtn.disabled=false;
+        submitBtn.textContent=originalText;
+      });
+
       return false;
     }
   </script>
