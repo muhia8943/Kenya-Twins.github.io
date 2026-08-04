@@ -13,10 +13,10 @@
        apple-touch-icon.png → when someone saves your site to iPhone home screen
        android-chrome-192x192.png / 512x512.png → Android / PWA icons
        site.webmanifest  → tells browsers about your app icons (see note below)
-   ─── FAVICON ──────────────────────────────────────────────────────────── -->
+  ──────────────────────────────────────────────────────────────────────────── -->
   <link rel="icon" type="image/x-icon" href="./favicon.ico">
-  <link rel="icon" type="image/png" sizes="96x96" href="./favicon-96x96.png">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <link rel="manifest" href="./site.webmanifest">
 
@@ -395,6 +395,8 @@
       padding: 1.5rem 6vw;
       display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
     }
+    .footer-bottom p { font-size: .78rem; color: rgba(255,255,255,.3); }
+    .footer-bottom a { color: rgba(255,255,255,.4); text-decoration: none; transition: color .2s; }
     .footer-bottom a:hover { color: var(--blue-lt); }
 
     /* ─── SCROLL ANIMATION ────────────────────────────── */
@@ -831,10 +833,6 @@
 
 .footer-emails a {
     text-decoration: none;
-}
-.footer-bottom .credit,
-.footer-bottom .credit a {
-    color: #ff00a6 !important;
 }
   </style>
 </head>
@@ -1288,12 +1286,10 @@
         <p style="font-size:.75rem;color:rgba(255,255,255,.3);margin-top:1rem">@Kenya Twins Association</p>
       </div>
     </div>
-<div class="footer-bottom">
-    <p>© 2026 Kenya Twins Association – KETA. All rights reserved.</p>
-    <p class="credit">
-        Made by <a href="https://lincorn.dpdns.org" target="_blank" rel="noopener">Lincoln Samuel</a>
-    </p>
-</div>
+    <div class="footer-bottom">
+      <p>© 2026 Kenya Twins Association – KETA. All rights reserved.</p>
+      <p>Site admin: <a href="mailto:abdirashidtulito@gmail.com">Abdirashid Tulito</a></p>
+    </div>
   </footer>
 
   <!-- MODAL / POPUP FORMS -->
