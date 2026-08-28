@@ -582,6 +582,59 @@
       .programmes-grid { grid-template-columns: 1fr; }
       .membership-section { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ─── AFRICA TWINS SUMMIT ────────────────────────── */
+    .summit-section {
+      padding: 7rem 6vw;
+      background: var(--charcoal);
+      color: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+    .summit-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(6,172,233,.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .summit-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      position: relative;
+    }
+    .summit-badge-row { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .summit-chip { font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: .35rem 1rem; border-radius: 2px; }
+    .summit-chip.blue  { background: var(--blue); color: #fff; }
+    .summit-chip.gold  { background: #c9a84c; color: #0b1c2c; }
+    .summit-chip.out   { border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.6); }
+    .summit-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem,3.2vw,2.8rem); font-weight: 900; line-height: 1.15; color: #fff; margin-bottom: .5rem; }
+    .summit-theme { font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1rem,1.5vw,1.2rem); color: #c9a84c; margin-bottom: 1.8rem; line-height: 1.4; }
+    .summit-meta-row { display: flex; gap: 2.5rem; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.1); border-bottom: 1px solid rgba(255,255,255,.1); padding: 1.2rem 0; margin-bottom: 1.8rem; }
+    .summit-meta-item { display: flex; flex-direction: column; gap: .2rem; }
+    .summit-meta-label { font-size: .68rem; text-transform: uppercase; letter-spacing: .09em; color: var(--blue-lt); font-weight: 700; }
+    .summit-meta-val   { font-size: .95rem; color: #fff; font-weight: 500; }
+    .summit-body p { font-size: .93rem; line-height: 1.85; color: rgba(255,255,255,.65); font-weight: 300; margin-bottom: 1rem; }
+    .summit-welcome { margin: 1.4rem 0; padding: 1.2rem 1.4rem; border-left: 3px solid var(--blue); background: rgba(6,172,233,.07); }
+    .summit-welcome p { font-size: .88rem; margin-bottom: .4rem; color: rgba(255,255,255,.7); }
+    .summit-welcome p:last-child { margin-bottom: 0; }
+    .summit-tagline { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: #c9a84c; margin: 1.4rem 0 1.8rem; line-height: 1.5; }
+    .btn-summit { background: var(--blue); color: #fff; padding: .95rem 2.2rem; border-radius: 2px; text-decoration: none; font-weight: 700; font-size: .92rem; letter-spacing: .02em; transition: background .2s, transform .15s; display: inline-block; }
+    .btn-summit:hover { background: var(--blue-lt); transform: translateY(-2px); }
+    .summit-note { font-size: .78rem; color: rgba(255,255,255,.35); margin-top: .6rem; display: block; }
+    .summit-visual { display: flex; flex-direction: column; gap: 1.4rem; }
+    .summit-img-wrap { aspect-ratio: 4/3; background: rgba(255,255,255,.04); border: 1px dashed rgba(6,172,233,.35); border-radius: 4px; overflow: hidden; position: relative; }
+    .summit-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .summit-img-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .6rem; color: rgba(255,255,255,.2); font-size: .8rem; text-align: center; padding: 1.5rem; }
+    .summit-keta-endorse { background: rgba(6,172,233,.08); border: 1px solid rgba(6,172,233,.2); border-radius: 4px; padding: 1.2rem 1.4rem; display: flex; gap: 1rem; align-items: flex-start; }
+    .endorse-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: .1rem; }
+    .endorse-text h4 { font-size: .82rem; font-weight: 700; color: var(--blue-lt); text-transform: uppercase; letter-spacing: .06em; margin-bottom: .3rem; }
+    .endorse-text p  { font-size: .82rem; color: rgba(255,255,255,.55); line-height: 1.6; }
+    @media (max-width: 900px) {
+      .summit-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .summit-visual { order: -1; }
+    }
     .nav-logo{
     display:flex;
     align-items:center;
@@ -856,6 +909,7 @@
       <li><a href="#home">Home</a></li>
       <li><a href="partner.html">Be a Partner</a></li>
       <li><a href="#programmes">Programmes</a></li>
+      <li><a href="#summit">Summit 2026</a></li>
       <li><a href="#help">Request Help</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -868,6 +922,7 @@
     <a href="#home" onclick="closeMobile()">Home</a>
     <a href="partner.html" onclick="closeMobile()">Be a Partner</a>
     <a href="#programmes" onclick="closeMobile()">Programmes</a>
+    <a href="#summit" onclick="closeMobile()">Summit 2026</a>
     <a href="#help" onclick="closeMobile()">Request Help</a>
     <a href="#contact" onclick="closeMobile()">Contact</a>
     <a href="#membership" class="btn-primary" onclick="closeMobile()">Register as Member →</a>
@@ -1027,7 +1082,7 @@
     <div class="welcome-visual reveal">
       <div class="welcome-img-wrap">
         <!-- Replace src with one of your photos -->
-        <img src="./images/2.jpeg" alt="KETA community"
+        <img src="./images/BB.jpeg" alt="KETA community"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="welcome-img-placeholder">
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1121,6 +1176,81 @@
         <p class="programme-desc">Skills training and start-up capital for youth twins, triplets, and multiple births aged 18–35. We equip you with business skills, mentorship, and seed funding to start or expand your business.</p>
         <div class="programme-card-bar"></div>
       </div>
+    </div>
+  </section>
+
+  <!-- AFRICA TWINS ASSOCIATION SUMMIT -->
+  <section class="summit-section" id="summit">
+    <div class="summit-inner">
+
+      <!-- LEFT: Text content -->
+      <div class="summit-text reveal">
+        <div class="summit-badge-row">
+          <span class="summit-chip blue">Official Invitation</span>
+          <span class="summit-chip gold">2nd Summit</span>
+          <span class="summit-chip out">Sierra Leone · 2026</span>
+        </div>
+        <h2>Africa Twins Association Summit</h2>
+        <div class="summit-theme">"Twins of Africa Twinning Against Poverty"</div>
+
+        <div class="summit-meta-row">
+          <div class="summit-meta-item">
+            <span class="summit-meta-label">Dates</span>
+            <span class="summit-meta-val">20–22 November 2026</span>
+          </div>
+          <div class="summit-meta-item">
+            <span class="summit-meta-label">Location</span>
+            <span class="summit-meta-val">Republic of Sierra Leone</span>
+          </div>
+          <div class="summit-meta-item">
+            <span class="summit-meta-label">Edition</span>
+            <span class="summit-meta-val">2nd Africa Twins Summit</span>
+          </div>
+        </div>
+
+        <div class="summit-body">
+          <p>The Kenya Twins Association (KETA) is proud to announce and endorse the 2nd Africa Twins Association Summit — a call for twins across the continent to unite not just in celebration, but in action towards economic empowerment, shared opportunities, and sustainable development for our families and communities.</p>
+          <p>This summit will bring together twins, triplets and multiple births, parents of multiples, researchers, entrepreneurs, cultural leaders and development partners from across Africa and beyond.</p>
+        </div>
+
+        <div class="summit-welcome">
+          <p>🇰🇪 All twins, triplets and multiple births in Kenya</p>
+          <p> Twins associations across the continent</p>
+          <p> Twins in the diaspora and around the world</p>
+          <p> Parents, guardians, and partners of twins</p>
+          <p> Well-wishers and partners who believe in our mission</p>
+        </div>
+
+        <div class="summit-tagline">"When twins twin against poverty, Africa wins."<br>— Karibuni Sana.</div>
+
+        <a href="mailto:kenyatwins7@gmail.com?subject=Africa Twins Summit 2026 - Interest to Attend" class="btn-summit">Express Interest to Attend →</a>
+        <span class="summit-note">Contact us for registration details and travel coordination.</span>
+      </div>
+
+      <!-- RIGHT: Image + endorsement -->
+      <div class="summit-visual reveal">
+        <div class="summit-img-wrap">
+          <!-- Replace src with official summit poster/image when available -->
+          <img src="./images/WhatsApp Image 2026-08-26 at 8.59.57 PM.jpeg" alt="Africa Twins Association 2nd Summit – Sierra Leone 2026"
+               onerror="this.style.display='none'">
+          <div class="summit-img-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <span>Summit poster / official image<br><em>Replace src="./images/summit-poster.jpg"</em></span>
+          </div>
+        </div>
+
+        <div class="summit-keta-endorse">
+          <div class="endorse-icon">🇰🇪</div>
+          <div class="endorse-text">
+            <h4>Officially Endorsed by KETA</h4>
+            <p>Kenya Twins Association proudly supports and endorses this continental summit, encouraging all Kenyan twin families to participate in this historic gathering.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1271,6 +1401,7 @@
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About KETA</a></li>
           <li><a href="#programmes">Programmes</a></li>
+          <li><a href="#summit">Africa Twins Summit</a></li>
           <li><a href="#help">Request Help</a></li>
           <li><a href="#membership">Membership</a></li>
           <li><a href="mailto:kenyatwins7@gmail.com">Donate</a></li>
